@@ -23,7 +23,7 @@ public class EnemyController : MonoBehaviour {
         randVect = Random.insideUnitSphere;
         // make sure it does not move outside of player's plane.
         randVect.y = 0.0f;
-        waitTime = 0.0f;
+        waitTime = moveWait;
 
         if (speed <= 0)
         {
@@ -63,7 +63,10 @@ public class EnemyController : MonoBehaviour {
         if(Time.time > waitTime)
         {
             waitTime = Time.time + moveWait;
-            rigidBod.velocity = randVect / speed;
+            randVect = Random.insideUnitSphere;
+            // make sure it does not move outside of player's plane.
+            randVect.y = 0.0f;
+            rigidBod.velocity = randVect.normalized * speed;
         }
         
         

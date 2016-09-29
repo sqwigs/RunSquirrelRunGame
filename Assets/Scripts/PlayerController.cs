@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
         
         // Determine vector to move character
         Vector3 movementVector = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        rigidBod.velocity = movementVector * speed;
+        rigidBod.velocity = movementVector * -speed;
 
         this.rigidBod.position = new Vector3
         (
@@ -49,13 +49,13 @@ public class PlayerController : MonoBehaviour
         moveVertical = Input.GetAxis("Vertical");
         // Restricts movement to Horizontal or Vertical, Disabling Diagonal.
         // TODO: Fix bug were you hold both up and side causing weird direction turn. 
-        if (Mathf.Abs(moveHorizontal) > Mathf.Abs(moveVertical))
-        {
-            moveVertical = 0.0f;
-        }
-        else
-        {
-            moveHorizontal = 0.0f;
-        }
+        //if (Mathf.Abs(moveHorizontal) > Mathf.Abs(moveVertical))
+        //{
+        //    moveVertical = 0.0f;
+        //}
+        //else
+        //{
+        //    moveHorizontal = 0.0f;
+        //}
     }
 }
