@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 [System.Serializable]
 public class Boundary
@@ -18,26 +19,18 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rigidBod;
     private float moveHorizontal, moveVertical;
 
+
     void Start ()
     {
-        charControl = this.GetComponent<CharacterController>();
+        DOTween.Init(true, false, LogBehaviour.ErrorsOnly);
         rigidBod = this.GetComponent<Rigidbody>();
     }
     
     void Update ()
     {
-        
         // Determine vector to move character
         Vector3 movementVector = new Vector3(moveHorizontal, 0.0f, moveVertical);
         rigidBod.velocity = movementVector * -speed;
-
-        this.rigidBod.position = new Vector3
-        (
-            Mathf.Clamp(rigidBod.position.x, boundary.xMin, boundary.xMax),
-            0.0f,
-            Mathf.Clamp(rigidBod.position.z, boundary.zMin, boundary.zMax)
-        );
-
         rigidBod.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
     }
 
@@ -47,15 +40,15 @@ public class PlayerController : MonoBehaviour
         // get movementinput from user
         moveHorizontal = Input.GetAxis("Horizontal");
         moveVertical = Input.GetAxis("Vertical");
-        // Restricts movement to Horizontal or Vertical, Disabling Diagonal.
-        // TODO: Fix bug were you hold both up and side causing weird direction turn. 
-        //if (Mathf.Abs(moveHorizontal) > Mathf.Abs(moveVertical))
-        //{
-        //    moveVertical = 0.0f;
-        //}
-        //else
-        //{
-        //    moveHorizontal = 0.0f;
-        //}
+    }
+
+    void OnTriggerEnter (Collider other)
+    {
+        if (other.tag.Equals("Boundary"))
+        {
+            Debug.Log("Entered Bound");
+            rigidBod.velocity = Vector3.zero;
+        }
+        
     }
 }

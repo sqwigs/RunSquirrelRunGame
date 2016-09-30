@@ -1,7 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
-public class BoundaryCollision : MonoBehaviour {
+public class EnemyCollision : MonoBehaviour
+{
+
+    // Runs once at beginning
+    void Start()
+    {
+        DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
+    }
 
     /**
     *  If other enters the boundary, execute event
@@ -10,8 +18,8 @@ public class BoundaryCollision : MonoBehaviour {
     {
         if (other.tag.Equals("Boundary"))
         {
-            Debug.Log("Entered Bound");
-            GetComponent<Rigidbody>().velocity = Vector3.zero;
+            transform.DOPause();
         }
     }
+
 }
