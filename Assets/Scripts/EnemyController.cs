@@ -3,22 +3,27 @@ using System.Collections;
 
 public class EnemyController : MonoBehaviour {
 
-    // Speed of Enemy
+    // public movement var of Enemy
     public float speed;
+	public Vector3 originPt;
     public float moveWait;
     public float bounceWait;
     public Boundary boundary;
 
     // Control for the Enemy
     private Rigidbody rigidBod;
-    private double counter;
     private Vector3 randVect;
     private float waitTime;
-    
+
+	// The probability of moving in a specific direction
+	private double leftProb;
+	private double rightProb;
+	private double topProb;
+	private double botProb;
+
 	// Use this for initialization
 	void Start () {
         rigidBod = this.GetComponent<Rigidbody>();
-        counter = 0.0;
         // Deterimine Random direction for enemy.
         randVect = Random.insideUnitSphere;
         // make sure it does not move outside of player's plane.
@@ -29,6 +34,11 @@ public class EnemyController : MonoBehaviour {
         {
             speed = 1;
         }
+
+		leftProb = 50;
+		rightProb = 50;
+		topProb = 50;
+		botProb = 50;
     }
 
     void Update ()
@@ -63,7 +73,7 @@ public class EnemyController : MonoBehaviour {
         if(Time.time > waitTime)
         {
             waitTime = Time.time + moveWait;
-            randVect = Random.insideUnitSphere;
+			calcXRange();
             // make sure it does not move outside of player's plane.
             randVect.y = 0.0f;
             rigidBod.velocity = randVect.normalized * speed;
@@ -72,4 +82,43 @@ public class EnemyController : MonoBehaviour {
         
     }
 
+
+	void calcXRange () 
+	{	
+		float currPos = rigidBod.position.x;
+		double probOfXMovement = Mathf.Pow( (currPos / originPt.x), 2);
+
+		// If current x position is greater than 0, then the probability of moving left must be greater than right
+		if (currPos > 0) 
+		{
+			leftProb = probOfXMovement;
+			rightProb = 100 - probOfXMovement;
+		} 
+		// else right must be greater than the left
+		else 
+		{
+			rightProb = probOfXMovement;
+			leftProb = 100 - probOfXMovement;
+		}
+
+	}
+
+	void calcZRange ()
+	{
+		float currPos = rigidBod.position.z;
+		double probOfXMovement = Mathf.Pow( (currPos / originPt.z), 2);
+
+		// If current z position is greater than 0, then the probability of moving down is greater than that of moving up
+		if (currPos > 0) 
+		{
+			botProb = probOfXMovement;
+			topProb = 100 - probOfXMovement;
+		} 
+		// else right must be greater than the left
+		else 
+		{
+			topProb = probOfXMovement;
+			botProb = 100 - probOfXMovement;
+		}
+	}
 }
