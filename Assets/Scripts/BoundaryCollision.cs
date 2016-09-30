@@ -4,12 +4,10 @@ using DG.Tweening;
 
 public class BoundaryCollision : MonoBehaviour {
 
-	private EnemyController eC;
-
-
-	void Start () 
+	// Runs once at beginning
+	void Start ()
 	{
-		eC = GameObject.Find ("Enemy").GetComponent<EnemyController> ();
+		DOTween.Init (false, true, LogBehaviour.ErrorsOnly);
 	}
 
     /**
@@ -17,17 +15,11 @@ public class BoundaryCollision : MonoBehaviour {
     */
 	void OnTriggerEnter (Collider other)
     {
-		Debug.Log (other.tag);
-        // Stop Player
-        if (other.tag.Equals("Player"))
-        {
-
-        }
-        // Bounce Enemy
-        else if (other.tag.Equals("Enemy"))
-        {
+		if (other.tag.Equals ("Boundary")) 
+		{
 			Debug.Log ("Trying to Pause");
-			eC.DOKill();
-        }
+			transform.DOPause ();
+		}
     }
+
 }
