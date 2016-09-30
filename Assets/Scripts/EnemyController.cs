@@ -2,6 +2,12 @@
 using System.Collections;
 using DG.Tweening;
 
+[System.Serializable]
+public class Boundary
+{
+    public float xMin, xMax, zMin, zMax;
+}
+
 public class EnemyController : MonoBehaviour {
 
     // public movement var of Enemy
@@ -59,9 +65,10 @@ public class EnemyController : MonoBehaviour {
 			// make sure it does not move outside of player's plane.
 			randVect.y = 0.0f;
 			transform.DOMove (randVect , speed, false);
-			//rigidBod.velocity = randVect.normalized * speed;
 
-			yield return new WaitForSeconds (moveWait);
+            //rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+
+            yield return new WaitForSeconds (moveWait);
 
 			transform.DOPause ();
 

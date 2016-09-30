@@ -13,11 +13,12 @@ public class BoundaryCollision : MonoBehaviour {
     /**
     *  If other enters the boundary, execute event
     */
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collider other)
     {
         if (other.tag.Equals("Boundary"))
         {
-            transform.DOPause();
+            Debug.Log("Hit Bound");
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
     }
 }
