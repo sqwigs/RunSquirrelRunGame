@@ -1,34 +1,36 @@
 ﻿using UnityEngine;
 using System.Collections;
+using DG.Tweening;
 
 public class EnemyController : MonoBehaviour {
 
     // public movement var of Enemy
     public float speed;
-	public Vector3 originPt;
     public float moveWait;
     public float bounceWait;
+	public float pauseWait;
+	public Vector3 originPt;
     public Boundary boundary;
 
     // Control for the Enemy
-    private Rigidbody rigidBod;
+	private Transform transform;
     private Vector3 randVect;
-    private float waitTime;
 
 	// The probability of moving in a specific direction
-	private double leftProb;
-	private double rightProb;
-	private double topProb;
-	private double botProb;
+	private float leftProb;
+	private float rightProb;
+	private float topProb;
+	private float botProb;
 
 	// Use this for initialization
 	void Start () {
-        rigidBod = this.GetComponent<Rigidbody>();
+		DOTween.Init (false, true, LogBehaviour.ErrorsOnly);
+
+		transform = this.GetComponent<Transform>();
         // Deterimine Random direction for enemy.
-        randVect = Random.insideUnitSphere;
+		randVect = new Vector3();
         // make sure it does not move outside of player's plane.
         randVect.y = 0.0f;
-        waitTime = moveWait;
 
         if (speed <= 0)
         {
@@ -39,86 +41,104 @@ public class EnemyController : MonoBehaviour {
 		rightProb = 50;
 		topProb = 50;
 		botProb = 50;
+
+		StartCoroutine (moveEnemy());
     }
 
-    void Update ()
-    {
-        // change x velocity vector
-        if (rigidBod.position.x <= boundary.xMin)
-        {
-            rigidBod.velocity = Vector3.zero;
-            randVect.x = Random.Range(0, boundary.xMax);
-            
-        }
-        else if (rigidBod.position.x >= boundary.xMax)
-        {
-            randVect.x = Random.Range(boundary.xMin, 0);
-            rigidBod.velocity = Vector3.zero;
-           
-        }
+	// Runs every frame
+//    void Update ()
+//    {
+//        if(Time.time > waitTime)
+//        {
+//            waitTime = Time.time + moveWait;
+//			calcXRange ();
+//			calcZRange ();
+//			randVect.x = Random.Range (boundary.xMin * leftProb, boundary.xMax * rightProb);
+//			randVect.z = Random.Range (boundary.zMin * botProb, boundary.zMax * topProb);
+//			Debug.Log (randVect.x);
+//			Debug.Log (randVect.z);
+//            // make sure it does not move outside of player's plane.
+//            randVect.y = 0.0f;
+//			transform.DOMove (randVect, speed, false);
+//            //rigidBod.velocity = randVect.normalized * speed;
+//        }
+//    }
+//
+	IEnumerator moveEnemy () 
+	{
+		while (true) 
+		{
+			calcXRange ();
+			calcZRange ();
+			randVect.x = Random.Range (boundary.xMin * leftProb, boundary.xMax * rightProb);
+			randVect.z = Random.Range (boundary.zMin * botProb, boundary.zMax * topProb);
+			// make sure it does not move outside of player's plane.
+			randVect.y = 0.0f;
+			transform.DOMove (randVect, speed, false);
+			//rigidBod.velocity = randVect.normalized * speed;
 
-        // change z velocity vector
-        if (rigidBod.position.z <= boundary.zMin)
-        {
-            randVect.z = Random.Range(0, boundary.zMax);
-            rigidBod.velocity = Vector3.zero;
-           
-        }
-        else if (rigidBod.position.z >= boundary.zMax)
-        {
-            randVect.z = Random.Range(boundary.zMin, 0);
-            rigidBod.velocity = Vector3.zero;
-        }
+			yield return new WaitForSeconds (moveWait);
 
-        if(Time.time > waitTime)
-        {
-            waitTime = Time.time + moveWait;
-			calcXRange();
-            // make sure it does not move outside of player's plane.
-            randVect.y = 0.0f;
-            rigidBod.velocity = randVect.normalized * speed;
-        }
-        
-        
-    }
+			transform.DOPause ();
 
+			yield return new WaitForSeconds (pauseWait);
+		}
+	}
 
+	/*
+	 * Will calculate the probability range for the x range
+	 */
 	void calcXRange () 
 	{	
-		float currPos = rigidBod.position.x;
-		double probOfXMovement = Mathf.Pow( (currPos / originPt.x), 2);
+		float currPos = transform.position.x;
 
+		float probOfXMovement = Mathf.Pow( (currPos / originPt.x), 2);
+
+
+		if (probOfXMovement == 0) 
+		{
+			leftProb = 0.5f;
+			rightProb = 0.5f;
+		}
 		// If current x position is greater than 0, then the probability of moving left must be greater than right
-		if (currPos > 0) 
+		else if (currPos > 0) 
 		{
 			leftProb = probOfXMovement;
-			rightProb = 100 - probOfXMovement;
+			rightProb = 1 - probOfXMovement;
 		} 
 		// else right must be greater than the left
 		else 
 		{
 			rightProb = probOfXMovement;
-			leftProb = 100 - probOfXMovement;
+			leftProb = 1 - probOfXMovement;
 		}
 
 	}
 
+	/*
+	 * Will calculate the probability range for the z range
+	 */
 	void calcZRange ()
 	{
-		float currPos = rigidBod.position.z;
-		double probOfXMovement = Mathf.Pow( (currPos / originPt.z), 2);
+		float currPos = transform.position.z;
+		float probOfXMovement = Mathf.Pow( (currPos / originPt.z), 2);
 
+		if (probOfXMovement == 0) 
+		{
+			botProb = 0.5f;
+			topProb = 0.5f;
+		}
 		// If current z position is greater than 0, then the probability of moving down is greater than that of moving up
-		if (currPos > 0) 
+		else if (currPos > 0) 
 		{
 			botProb = probOfXMovement;
-			topProb = 100 - probOfXMovement;
+			topProb = 1 - probOfXMovement;
 		} 
 		// else right must be greater than the left
 		else 
 		{
 			topProb = probOfXMovement;
-			botProb = 100 - probOfXMovement;
+			botProb = 1 - probOfXMovement;
 		}
 	}
 }
