@@ -17,7 +17,6 @@ public class BoundaryCollision : MonoBehaviour {
     {
         if (other.tag.Equals("Boundary"))
         {
-            Debug.Log("Hit Bound");
             GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
     }

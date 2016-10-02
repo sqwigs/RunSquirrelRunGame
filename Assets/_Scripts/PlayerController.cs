@@ -35,6 +35,6 @@ public class PlayerController : MonoBehaviour
         Vector3 movementVector = new Vector3(moveHorizontal, 0.0f, moveVertical);
         rigidBod.velocity = movementVector * -speed;
 
-        rigidBod.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+       // rigidBod.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
     }
 }
