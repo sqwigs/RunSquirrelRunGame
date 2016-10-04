@@ -21,6 +21,7 @@ public class EnemyController : MonoBehaviour {
     // Control for the Enemy
 	private new Transform transform;
     private Vector3 randVect;
+    private SpriteRenderer spriteRend;
 
 	// The probability of moving in a specific direction
 	private float leftProb;
@@ -32,9 +33,13 @@ public class EnemyController : MonoBehaviour {
 	void Start () {
 		DOTween.Init (false, true, LogBehaviour.ErrorsOnly);
 
+        // get Enemy game object components
 		transform = this.GetComponent<Transform>();
+        spriteRend = this.GetComponent<SpriteRenderer>();
+
         // Deterimine Random direction for enemy.
 		randVect = new Vector3();
+
         // make sure it does not move outside of player's plane.
         randVect.y = 0.0f;
 
@@ -64,6 +69,16 @@ public class EnemyController : MonoBehaviour {
 			randVect.z = Random.Range (boundary.zMin * botProb, boundary.zMax * topProb);
 			// make sure it does not move outside of player's plane.
 			randVect.y = 0.0f;
+
+            if (randVect.z < 0)
+            {
+                spriteRend.flipX = true;
+            }
+            else
+            {
+                spriteRend.flipX = false;
+            }
+
 			transform.DOMove (randVect , speed, false);
 
             //rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);

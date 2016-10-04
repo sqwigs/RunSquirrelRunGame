@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour
 
     // Used for movement control
     private Rigidbody rigidBod;
+    private SpriteRenderer spriteRend;
     private float moveHorizontal, moveVertical;
     private Vector3 currVector;
 
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
     {
         DOTween.Init(true, false, LogBehaviour.ErrorsOnly);
         rigidBod = this.GetComponent<Rigidbody>();
+        spriteRend = this.GetComponent<SpriteRenderer>();
         currVector = rigidBod.position;
 
         if (speed <=0 )
@@ -30,6 +32,17 @@ public class PlayerController : MonoBehaviour
         // get movementinput from user
         moveHorizontal = Input.GetAxis("Horizontal");
         moveVertical = Input.GetAxis("Vertical");
+
+        
+
+        if (moveHorizontal < 0)
+        {
+            spriteRend.flipX = true;
+        }
+        else
+        {
+            spriteRend.flipX = false;
+        }
 
         // Determine vector to move character
         Vector3 movementVector = new Vector3(moveHorizontal, 0.0f, moveVertical);
