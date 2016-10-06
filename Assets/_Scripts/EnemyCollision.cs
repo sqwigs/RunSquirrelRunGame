@@ -14,12 +14,9 @@ public class EnemyCollision : MonoBehaviour
     /**
     *  If other enters the boundary, execute event
     */
-    void OnCollisionEnter(Collider other)
+    void OnCollisionEnter(Collision other)
     {
-        if (other.tag.Equals("Boundary"))
-        {
-            transform.DOPause();
-        }
+          transform.DOPause();
     }
 
 }
