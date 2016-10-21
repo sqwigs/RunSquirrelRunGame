@@ -17,6 +17,7 @@ public abstract class EnemyInterface : MonoBehaviour {
     public float moveWait;
     public float pauseWait;
     public Boundary boundary; 
+	//public Transform goal;
 
     // Control system for enemy types
     protected new Transform transform;
@@ -26,7 +27,6 @@ public abstract class EnemyInterface : MonoBehaviour {
    /// Movement control for enemy types must be implemented abstractly
    /// </summary>
     protected abstract void movement ();
-
 
 
 }

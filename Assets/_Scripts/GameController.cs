@@ -33,6 +33,9 @@ public class GameController : MonoBehaviour
                 Application.LoadLevel(Application.loadedLevel);
             }
         }
+		if (Input.GetKeyDown (KeyCode.T)) {
+			Application.LoadLevel (Application.loadedLevel);
+		}
 	}
 
     /// <summary>
