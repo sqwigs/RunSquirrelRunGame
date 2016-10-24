@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System;
 
@@ -30,11 +31,13 @@ public class GameController : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.R))
             {
-                Application.LoadLevel(Application.loadedLevel);
+                //Application.LoadLevel(Application.loadedLevel);
+                SceneManager.LoadSceneAsync("FirstLevelProto");
             }
         }
 		if (Input.GetKeyDown (KeyCode.T)) {
-			Application.LoadLevel (Application.loadedLevel);
+            //Application.LoadLevel (Application.loadedLevel);
+            SceneManager.LoadSceneAsync("FirstLevelProto");
 		}
 	}
 
@@ -65,7 +68,6 @@ public class GameController : MonoBehaviour
     /// <param name="playerHealth"></param>
     public void setHealth(int playerHealth)
     {
-        Debug.Log("Printing Health");
         healthText.text = "Health : " + playerHealth;
     }
 }
