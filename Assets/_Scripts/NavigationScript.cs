@@ -19,7 +19,7 @@ public class NavigationScript : MonoBehaviour
     // time control
     protected float time;
     protected bool pause;
-    protected bool canMove;
+    protected bool canMove; 
     protected bool targetFound;
 
     void Start()
