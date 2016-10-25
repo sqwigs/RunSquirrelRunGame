@@ -12,13 +12,22 @@ public class PlayerController : MonoBehaviour
     // Used for movement control
     private Rigidbody rigidBod;
     //private SpriteRenderer spriteRend;
-    private float moveHorizontal, moveVertical;
+    private float moveHorz, moveVert;
 
     // Used for sprite control
-    private SpriteRenderer[]  spList;
+    private SpriteRenderer[] spList;
     private int previousState;
 
-    void Start ()
+    // Control if player was hit by enemy.
+    public float recoilTime; // how much time the player will recoil backwards
+    public float maxRecoilDist; // max distance that the player can recoil
+    public float recoveryTime; // max amount of time before player regains control. 
+    private bool isHit;
+    private Vector3 dirOfHit; // direction of enemy direction vector during hit
+    private float currTime; // control for time. 
+    private Vector3 playerSnapDir; // snapshot of players current direction vector.
+
+    void Start()
     {
         DOTween.Init(true, false, LogBehaviour.ErrorsOnly);
         rigidBod = this.GetComponent<Rigidbody>();
@@ -29,32 +38,77 @@ public class PlayerController : MonoBehaviour
 
         previousState = 2; // intial state facing the right
 
-        if (speed <=0 )
+        if (speed <= 0)
         {
             speed = 10;
         }
-    }
-    
-    void Update ()
-    {
-        // Determine vector to move character
-        Vector3 movementVector = new Vector3(moveHorizontal, 0.0f, moveVertical);
-        rigidBod.velocity = movementVector * -speed;
 
-       // rigidBod.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        currTime = Time.deltaTime;
+    }
+
+    void Update()
+    {
+        // recoil of player if hit
+        if (isHit)
+        {
+            // wait for time to expire until recoil movement stops, or if player decides to move and recoveryTime has expired
+            if ((currTime > recoilTime) || ((moveHorz != 0 || moveVert != 0) && currTime > recoveryTime))
+            {
+                recoilReset();
+            }
+            else
+            {
+                Vector3 movementVector = playerSnapDir + (dirOfHit.normalized * maxRecoilDist);
+                movementVector.y = 0.0f;
+                rigidBod.DOMove(movementVector, 3);
+            }
+
+            currTime += Time.deltaTime;
+        }
+        else
+        {
+            // Determine vector to move character
+            Vector3 movementVector = new Vector3(moveHorz, 0.0f, moveVert);
+            rigidBod.velocity = movementVector * -speed;
+        }
+
     }
 
     void FixedUpdate()
     {
         // get movementinput from user
-        moveHorizontal = Input.GetAxis("Horizontal");
-        moveVertical = Input.GetAxis("Vertical");
+        moveHorz = Input.GetAxis("Horizontal");
+        moveVert = Input.GetAxis("Vertical");
 
-        changeHorzSpriteDirection(moveHorizontal);
-        changeVertSpriteDirection(moveVertical);
+        changeHorzSpriteDirection(moveHorz);
+        setVertSpriteDirection(moveVert);
     }
 
-    private void changeVertSpriteDirection(float vertDir)
+    /// <summary>
+    /// If player is hit by enemy, then player must move in the opposite direction of the enemies vector.
+    /// </summary>
+    public void recoil(Vector3 enemyContact)
+    {
+        dirOfHit = enemyContact;
+        playerSnapDir = transform.position;
+        isHit = true;
+    }
+
+    /// <summary>
+    /// Kills recoil movement and resets recoil variables. 
+    /// </summary>
+    public void recoilReset ()
+    {
+        rigidBod.DOKill();
+        currTime = 0;
+        isHit = false;
+    }
+
+    /// <summary>
+    /// Sets the sprite's vertical direction based on param vertDir
+    /// </summary>
+    /// <param name="vertDir"></param>
+    private void setVertSpriteDirection(float vertDir)
     {
         // Change Sprite if necessary
         if (vertDir < 0 && previousState != 0)
@@ -71,7 +125,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void changeHorzSpriteDirection (float horzDir)
+    /// <summary>
+    /// Sets the sprite's horizontal direction based on param horzDir
+    /// </summary>
+    /// <param name="horzDir"></param>
+    private void changeHorzSpriteDirection(float horzDir)
     {
         // Change Sprite if necessary
         if (horzDir < 0 && previousState != 3)
@@ -87,4 +145,5 @@ public class PlayerController : MonoBehaviour
             previousState = 2;
         }
     }
+
 }

@@ -1,24 +1,39 @@
 ﻿using UnityEngine;
+using DG.Tweening;
 using System.Collections;
 
 public class PlayerCollision : MonoBehaviour {
 
     private GameController gameController;
-    private int playerHealth;
+    private PlayerController player;
+    public int playerHealth;
 
     /// <summary>
     /// Run at the start of game
     /// </summary>
     void Start()
     {
+        DOTween.Init(true, false, LogBehaviour.ErrorsOnly);
         GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
+
         if (gameControllerObject != null)
         {
             gameController = gameControllerObject.GetComponent<GameController>();
         }
-        if (gameController == null)
+        else
         {
             Debug.Log("Cannot find 'GameController' script");
+        }
+
+        GameObject playerControllerObject = GameObject.FindGameObjectWithTag("Player");
+
+        if (playerControllerObject != null)
+        {
+            player = playerControllerObject.GetComponent<PlayerController>();
+        }
+        else
+        {
+            Debug.Log("Cannot find 'PlayerController' script");
         }
 
         playerHealth = 100;
@@ -37,10 +52,11 @@ public class PlayerCollision : MonoBehaviour {
         if (other.collider.tag.Equals("Boundary"))
         {
             GetComponent<Rigidbody>().velocity = Vector3.zero;
+            player.recoilReset();
         }
         if (other.collider.tag.Equals("Enemy"))
         {
-            playerHealth -= Random.Range(0, 10);
+            playerHealth -= Random.Range(1, 10);
             if (playerHealth < 1)
             {
                 gameController.GameOver();
@@ -48,9 +64,9 @@ public class PlayerCollision : MonoBehaviour {
             }
             else
             {
-                Debug.Log("Accessing Health");
                 gameController.setHealth(playerHealth);
-
+                player.recoil(other.transform.position);
+                Debug.Log("Hitting Player");
             }
             
         }
