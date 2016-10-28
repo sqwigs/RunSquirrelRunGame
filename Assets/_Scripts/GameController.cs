@@ -13,6 +13,7 @@ public class GameController : MonoBehaviour
 
     // Controlling Var
     private bool gameOver;
+	public int playerHealth;
 
     // Use this for initialization
     void Start ()
@@ -20,7 +21,6 @@ public class GameController : MonoBehaviour
         restartText.text = "";
         gameOverText.text = "";
         levelCompleteText.text = "";
-        
         gameOver = false;
     }
 
@@ -39,6 +39,8 @@ public class GameController : MonoBehaviour
             //Application.LoadLevel (Application.loadedLevel);
             SceneManager.LoadSceneAsync("FirstLevelProto");
 		}
+
+		healthText.text = "Health : " + playerHealth;
 	}
 
     /// <summary>
@@ -62,12 +64,18 @@ public class GameController : MonoBehaviour
 		gameOver = true;
 	}
 
-    /// <summary>
-    /// Sets the lives text with the given playerHealth var.
-    /// </summary>
-    /// <param name="playerHealth"></param>
-    public void setHealth(int playerHealth)
-    {
-        healthText.text = "Health : " + playerHealth;
-    }
+	/// <summary>
+	/// If the player is hit and dies, this function will return true, else returns false. 
+	/// </summary>
+	/// <returns><c>true</c>, if hit was playered, <c>false</c> otherwise.</returns>
+	public bool playerHit () {
+		playerHealth -= UnityEngine.Random.Range (1, 10);
+
+		if (playerHealth < 1) {
+			GameOver ();
+			return true;
+		}
+
+		return false;
+	}
 }

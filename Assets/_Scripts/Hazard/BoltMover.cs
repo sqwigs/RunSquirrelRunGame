@@ -8,7 +8,7 @@ public class BoltMover : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        GetComponent<Rigidbody>().velocity = transform.forward * speed;
+		GetComponent<Rigidbody>().velocity = transform.forward * speed;
     }
 	
 }

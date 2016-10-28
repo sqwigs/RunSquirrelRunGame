@@ -23,8 +23,7 @@ public class PlayerController : MonoBehaviour
     public float maxRecoilDist; // max distance that the player can recoil
     public float recoveryTime; // max amount of time before player regains control. 
     private bool isHit;
-    private Vector3 dirOfHit; // direction of enemy direction vector during hit
-    private float currTime; // control for time. 
+    //private float currTime; // control for time. 
     private Vector3 playerSnapDir; // snapshot of players current direction vector.
 
     void Start()
@@ -43,30 +42,15 @@ public class PlayerController : MonoBehaviour
             speed = 10;
         }
 
-        currTime = Time.deltaTime;
+        //currTime = Time.deltaTime;
     }
 
     void Update()
     {
         // recoil of player if hit
-        if (isHit)
-        {
-            // wait for time to expire until recoil movement stops, or if player decides to move and recoveryTime has expired
-            if ((currTime > recoilTime) || ((moveHorz != 0 || moveVert != 0) && currTime > recoveryTime))
-            {
-                recoilReset();
-            }
-            else
-            {
-                Vector3 movementVector = playerSnapDir + (dirOfHit.normalized * maxRecoilDist);
-                movementVector.y = 0.0f;
-                rigidBod.DOMove(movementVector, 3);
-            }
-
-            currTime += Time.deltaTime;
-        }
-        else
-        {
+        if (!isHit)
+		{
+			//StopCoroutine (recoil());
             // Determine vector to move character
             Vector3 movementVector = new Vector3(moveHorz, 0.0f, moveVert);
             rigidBod.velocity = movementVector * -speed;
@@ -84,25 +68,49 @@ public class PlayerController : MonoBehaviour
         setVertSpriteDirection(moveVert);
     }
 
+
+
+
+
+	/// <summary>
+	/// If player is hit by enemy, then player must move in the opposite direction of the enemies vector.
+	/// </summary>
+	public IEnumerator recoil (Vector3 force)
+	{
+		rigidBod.AddForce(force * maxRecoilDist);
+
+		yield return new WaitForSeconds (recoveryTime);
+
+		isHit = false;
+
+	}
+
+	public void playerHit (Vector3 enemyContact) {
+		isHit = true;
+		StartCoroutine (recoil (enemyContact));
+
+	}
+
+
     /// <summary>
     /// If player is hit by enemy, then player must move in the opposite direction of the enemies vector.
     /// </summary>
-    public void recoil(Vector3 enemyContact)
-    {
-        dirOfHit = enemyContact;
-        playerSnapDir = transform.position;
-        isHit = true;
-    }
+//    public void recoil(Vector3 enemyContact)
+//    {
+//        dirOfHit = enemyContact;
+//        playerSnapDir = transform.position;
+//        isHit = true;
+//    }
 
     /// <summary>
     /// Kills recoil movement and resets recoil variables. 
     /// </summary>
-    public void recoilReset ()
-    {
-        rigidBod.DOKill();
-        currTime = 0;
-        isHit = false;
-    }
+//    public void recoilReset ()
+//    {
+//        rigidBod.DOKill();
+//        currTime = 0;
+//        isHit = false;
+//    }
 
     /// <summary>
     /// Sets the sprite's vertical direction based on param vertDir

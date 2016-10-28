@@ -30,6 +30,7 @@ public class NavigationScript : MonoBehaviour
 
         spawnPos = transform.position;
 
+
         pause = true;
         canMove = false;
         targetFound = false;

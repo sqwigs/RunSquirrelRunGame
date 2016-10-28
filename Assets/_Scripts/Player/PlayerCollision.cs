@@ -6,7 +6,7 @@ public class PlayerCollision : MonoBehaviour {
 
     private GameController gameController;
     private PlayerController player;
-    public int playerHealth;
+    
 
     /// <summary>
     /// Run at the start of game
@@ -35,10 +35,7 @@ public class PlayerCollision : MonoBehaviour {
         {
             Debug.Log("Cannot find 'PlayerController' script");
         }
-
-        playerHealth = 100;
-
-        gameController.setHealth(playerHealth);
+			
     }
 
     /**
@@ -52,23 +49,19 @@ public class PlayerCollision : MonoBehaviour {
         if (other.collider.tag.Equals("Boundary"))
         {
             GetComponent<Rigidbody>().velocity = Vector3.zero;
-            player.recoilReset();
+            //player.recoilReset();
         }
         if (other.collider.tag.Equals("Enemy"))
         {
-            playerHealth -= Random.Range(1, 10);
-            if (playerHealth < 1)
+			if (gameController.playerHit())
             {
                 gameController.GameOver();
                 Destroy(this.gameObject);
             }
             else
             {
-                gameController.setHealth(playerHealth);
-                player.recoil(other.transform.position);
-                Debug.Log("Hitting Player");
+				player.playerHit(other.transform.position);
             }
-            
         }
     }
 }
