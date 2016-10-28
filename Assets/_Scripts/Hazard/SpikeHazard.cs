@@ -12,10 +12,13 @@ public class SpikeHazard : HazardInterface {
     void Start () {
         DOTween.Init(true, false, LogBehaviour.ErrorsOnly);
         transform = GetComponent<Transform>();
-//        currTime = Time.deltaTime;
 		StartCoroutine (trapControl () );
 	}
 
+    /// <summary>
+    /// Make trap rise and fall over time of level
+    /// </summary>
+    /// <returns></returns>
 	protected override IEnumerator trapControl() 
 	{
 		while (true) {
@@ -33,25 +36,4 @@ public class SpikeHazard : HazardInterface {
 		}
 	}
 	
-//	// Update is called once per frame
-//	void Update ()
-//    {
-//	    if (!trapActivated)
-//        {
-//            trapTimer();
-//        }
-//    }
-
-//    protected override void activateTrap()
-//    {
-//        transform.DOMoveY(transform.position.y + transform.lossyScale.y, moveTime);
-//        Debug.Log("In activateTrap()");
-//    }
-//
-//    protected override void deactivateTrap()
-//    {
-//        transform.DOMoveY(transform.position.y - transform.lossyScale.y, moveTime);
-//        Debug.Log("In deactivateTrap()");
-//
-//    }
 }

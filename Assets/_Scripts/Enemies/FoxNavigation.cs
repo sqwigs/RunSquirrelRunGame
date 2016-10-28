@@ -3,7 +3,7 @@ using System.Collections;
 using DG.Tweening;
 using System;
 
-public class EnemyController : EnemyInterface
+public class FoxNavigation : EnemyInterface
 {
 
     // time control
@@ -12,8 +12,6 @@ public class EnemyController : EnemyInterface
 
     void Start()
     {
-//		NavMeshAgent agent = GetComponent<NavMeshAgent> ();
-//		agent.destination = goal.position;
         transform = GetComponent<Transform>();
         destination = new Vector3(0, 0, 0);
         speed /= 100;

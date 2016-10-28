@@ -49,19 +49,21 @@ public class PlayerCollision : MonoBehaviour {
         if (other.collider.tag.Equals("Boundary"))
         {
             GetComponent<Rigidbody>().velocity = Vector3.zero;
-            //player.recoilReset();
+            return;
         }
-        if (other.collider.tag.Equals("Enemy"))
+        else if (other.collider.tag.Equals("Arrow"))
         {
-			if (gameController.playerHit())
-            {
-                gameController.GameOver();
-                Destroy(this.gameObject);
-            }
-            else
-            {
-				player.playerHit(other.transform.position);
-            }
+            Destroy(other.gameObject);
+        }
+
+        if (!player.getIsHit() && gameController.playerHit())
+        {
+            gameController.GameOver();
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            player.playerHit(other.transform.position);
         }
     }
 }

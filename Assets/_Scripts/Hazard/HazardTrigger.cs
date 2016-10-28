@@ -40,7 +40,7 @@ public class HazardTrigger : MonoBehaviour {
 	{
 		if (collider.tag.Equals("Player") )
 		{
-			player.recoil (-collider.transform.position);
+			//player.recoil (-collider.transform.position);
 			if (gameController.playerHit ()) 
 			{
 				gameController.GameOver ();

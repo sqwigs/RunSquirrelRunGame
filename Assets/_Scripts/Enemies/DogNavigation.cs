@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class NavigationScript : MonoBehaviour
+public class DogNavigation : MonoBehaviour
 {
     // movement controls used by Designers
     public float walkRadius;

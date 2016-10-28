@@ -4,11 +4,11 @@ using System.Collections;
 public class DetectionTrigger : MonoBehaviour {
 
     public GameObject EnemyController;
-    private NavigationScript _nav;
+    private DogNavigation _nav;
 
     void Start ()
     {
-        _nav = EnemyController.GetComponent<NavigationScript>();
+        _nav = EnemyController.GetComponent<DogNavigation>();
     }
 	
 	void OnTriggerEnter (Collider other) {
