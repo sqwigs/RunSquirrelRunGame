@@ -43,8 +43,6 @@ public class CoyoteNavigation : NavigationInterface {
                 return;
             // Set the agent to go to the currently selected destination.
             _navAgent.destination = patrol.getPatrolPoint();
-
-
         }
 
     }

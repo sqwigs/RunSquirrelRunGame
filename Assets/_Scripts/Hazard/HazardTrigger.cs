@@ -36,15 +36,15 @@ public class HazardTrigger : MonoBehaviour {
 			
 	}
 
-	void OnTriggerEnter (Collider collider) 
+	void OnCollisionEnter (Collision collision) 
 	{
-		if (collider.tag.Equals("Player") )
+		if (collision.gameObject.tag.Equals("Player"))
 		{
 			//player.recoil (-collider.transform.position);
 			if (gameController.playerHit ()) 
 			{
 				gameController.GameOver ();
-				Destroy (collider.gameObject);
+				Destroy (collision.gameObject);
 			}
 		}
 	}
