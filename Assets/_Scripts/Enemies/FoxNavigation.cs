@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using DG.Tweening;
 using System;
 
 public class FoxNavigation : EnemyInterface

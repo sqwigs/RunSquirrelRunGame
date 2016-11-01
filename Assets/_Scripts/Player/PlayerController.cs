@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour
     public float recoilTime; // how much time the player will recoil backwards
     public float maxRecoilDist; // max distance that the player can recoil
     public float recoveryTime; // max amount of time before player regains control. 
-    private bool isHit;
+    private bool collisionEnabled = true;
 
 
     //private float currTime; // control for time. 
@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // recoil of player if hit
-        if (!isHit)
+        if (collisionEnabled)
 		{
             // Determine vector to move character
             Vector3 movementVector = new Vector3(moveHorz, 0.0f, moveVert);
@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
 
 		yield return new WaitForSeconds (recoveryTime);
 
-		isHit = false;
+		collisionEnabled = true;
 
 	}
 
@@ -98,9 +98,9 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     /// <param name="enemyContact"></param>
 	public void playerHit (Vector3 enemyContact) {
-        if (!isHit)
+        if (collisionEnabled)
         {
-            isHit = true;
+            collisionEnabled = false;
             StartCoroutine(recoil(enemyContact));
         }
 	}
@@ -109,9 +109,9 @@ public class PlayerController : MonoBehaviour
     /// Returns whether the player has been hit recently, thus in invinsible frames. 
     /// </summary>
     /// <returns> value of isHit private variable </returns>
-    public bool getIsHit ()
+    public bool getCollisionEnabled ()
     {
-        return isHit;
+        return collisionEnabled;
     }
 
     #endregion

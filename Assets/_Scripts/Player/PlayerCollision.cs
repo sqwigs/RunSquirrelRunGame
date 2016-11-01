@@ -56,7 +56,7 @@ public class PlayerCollision : MonoBehaviour {
             Destroy(other.gameObject);
         }
 
-        if (!player.getIsHit() && gameController.playerHit())
+        if (player.getCollisionEnabled() && gameController.playerHit())
         {
             gameController.GameOver();
             Destroy(this.gameObject);

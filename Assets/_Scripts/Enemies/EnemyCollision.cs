@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
-using DG.Tweening;
 
 public class EnemyCollision : MonoBehaviour
 {
-
+    private Rigidbody rigidbod;
     // Runs once at beginning
     void Start()
     {
-        DOTween.Init(false, true, LogBehaviour.ErrorsOnly);
+        rigidbod = GetComponent<Rigidbody>();
     }
 
     /**
@@ -16,7 +15,8 @@ public class EnemyCollision : MonoBehaviour
     */
     void OnCollisionEnter(Collision other)
     {
-          transform.DOPause();
+        if (other.collider.tag.Equals("Player"))
+            rigidbod.velocity = Vector3.zero;
     }
 
 }
