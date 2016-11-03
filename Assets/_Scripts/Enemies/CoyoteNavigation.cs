@@ -9,7 +9,7 @@ using System;
 /// 
 /// </summary>
 
-public class CoyoteNavigation : NavigationInterface {
+public class CoyoteNavigation : Navigable {
 
     public GameObject zoneObject;
     private Patrol patrol;
@@ -20,11 +20,11 @@ public class CoyoteNavigation : NavigationInterface {
 
         if (zoneObject != null)
         {
-            patrol = zoneObject.GetComponent<Patrol>();
+            patrol = new Patrol(zoneObject) ;
         }
         else
         {
-            Debug.Log("Cannot find 'Patrol' script");
+            Debug.Log("Cannot have a null zone object!");
         }
         
         _navAgent.autoBraking = false;

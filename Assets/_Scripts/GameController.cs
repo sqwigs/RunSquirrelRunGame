@@ -32,13 +32,17 @@ public class GameController : MonoBehaviour
             if(Input.GetKeyDown(KeyCode.R))
             {
                 //Application.LoadLevel(Application.loadedLevel);
-                SceneManager.LoadSceneAsync("FirstLevelProto");
+                SceneManager.LoadSceneAsync(0);
             }
         }
 		if (Input.GetKeyDown (KeyCode.T)) {
             //Application.LoadLevel (Application.loadedLevel);
             SceneManager.LoadSceneAsync("FirstLevelProto");
 		}
+        if (Input.GetKeyDown (KeyCode.Escape))
+        {
+            SceneManager.LoadScene(0);
+        }
 
 		healthText.text = "Health : " + playerHealth;
 	}

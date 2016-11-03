@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public abstract class NavigationInterface : MonoBehaviour
+public abstract class Navigable : MonoBehaviour
 {
     // movement controls used by Designers
     public float walkRadius;
@@ -22,6 +22,9 @@ public abstract class NavigationInterface : MonoBehaviour
     protected bool canMove;
     protected bool targetFound;
 
+    // freeze control
+    public float timeFrozen;
+
     /// <summary>
     /// Establish base for navigation variables used by child classes. 
     /// 
@@ -35,7 +38,6 @@ public abstract class NavigationInterface : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
 
         spawnPos = transform.position;
-
 
         pause = true;
         canMove = false;
@@ -54,6 +56,15 @@ public abstract class NavigationInterface : MonoBehaviour
             patrolMovement();
         }
 
+        if (Mathf.Abs(_navAgent.destination.x) - Math.Abs(_navAgent.nextPosition.x) > 0)
+        {
+            sprite.flipX = true;
+        }
+        else
+        {
+            sprite.flipX = false;
+        }
+
         transform.rotation = Quaternion.Euler(270, 0.0f, 0.0f);
     }
 
@@ -61,6 +72,14 @@ public abstract class NavigationInterface : MonoBehaviour
     /// Character moves along path determined through inheritence 
     /// </summary>
     protected abstract void patrolMovement() ;
+
+    /// <summary>
+    /// Character is frozen based on implmentation of inherited members
+    /// </summary>
+    internal virtual void Freeze()
+    {
+        StartCoroutine(FreezeInPlace());
+    }
 
     /// <summary>
     /// character uses Navmesh to move towards target. 
@@ -91,6 +110,15 @@ public abstract class NavigationInterface : MonoBehaviour
         target.y = 0.0f;
         patrolMovement();
         targetFound = false;
+    }
+
+    private IEnumerator FreezeInPlace ()
+    {
+        _navAgent.Stop();
+
+        yield return new WaitForSeconds(timeFrozen);
+
+        _navAgent.Resume();
     }
 
 }

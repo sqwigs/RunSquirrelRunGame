@@ -27,9 +27,11 @@ public class PlayerController : MonoBehaviour
     public float recoveryTime; // max amount of time before player regains control. 
     private bool collisionEnabled = true;
 
-
-    //private float currTime; // control for time. 
-    private Vector3 playerSnapDir; // snapshot of players current direction vector.
+    // Freezing Power Control
+    public float freezePowerCooldown;
+    public float freezePowerActive;
+    private bool freezeOn;
+    private GameObject freezeSphere;
 
     #endregion
 
@@ -49,7 +51,41 @@ public class PlayerController : MonoBehaviour
             speed = 10;
         }
 
-        //currTime = Time.deltaTime;
+        if (!GetChild(this.gameObject, "DetectionSphere", out freezeSphere))
+        {
+            Debug.Log("Could not find child \"DetectionSphere\" of player object");
+        }
+    }
+
+    /// <summary>
+    /// Gets the child gameObject whose name is specified by 'wanted'
+    /// The search is non-recursive by default unless true is passed to 'recursive'
+    /// 
+    /// Will return bool if child was found and place that child in childObject out param.
+    /// 
+    /// ********************* USED FROM THE FOLLOWING SOURCE *************************
+    /// http://answers.unity3d.com/questions/726780/disabling-child-gameobject-from-script-attached-to.html
+    /// 
+    /// ******************************************************************************
+    /// 
+    /// </summary>
+    private bool GetChild(GameObject inside, string wanted, out GameObject childObject, bool recursive = false)
+    {
+        childObject = null;
+        foreach (Transform child in inside.transform)
+        {
+            if (child.name == wanted)
+            {
+                childObject = child.gameObject;
+                return true;
+            }
+            if (recursive)
+            {
+                var within = GetChild(child.gameObject, wanted, out childObject, true);
+                if (within) return within;
+            }
+        }
+        return false;
     }
 
     #region Updates
@@ -74,6 +110,26 @@ public class PlayerController : MonoBehaviour
 
         changeHorzSpriteDirection(moveHorz);
         setVertSpriteDirection(moveVert);
+
+        if (freezeOn && Input.GetKeyDown(KeyCode.F))
+        {
+            freezeOn = false;
+            StartCoroutine(freeze());
+        }
+    }
+
+    private IEnumerator freeze()
+    {
+        freezeSphere.SetActive(true);
+
+        yield return new WaitForSeconds(freezePowerActive);
+
+        freezeSphere.SetActive(false);
+
+        yield return new WaitForSeconds(freezePowerCooldown);
+
+        freezeOn = true;
+
     }
 
     #endregion

@@ -1,14 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DetectionTrigger : MonoBehaviour {
+public class EnemyDetectionTrigger : MonoBehaviour {
 
-    public GameObject EnemyController;
-    private DogNavigation _nav;
+    private Navigable _nav;
 
     void Start ()
     {
-        _nav = EnemyController.GetComponent<DogNavigation>();
+        _nav = GetComponentInParent<Navigable>();
     }
 	
 	void OnTriggerEnter (Collider other) {

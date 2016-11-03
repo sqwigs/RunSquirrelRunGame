@@ -16,7 +16,20 @@ public class EnemyCollision : MonoBehaviour
     void OnCollisionEnter(Collision other)
     {
         if (other.collider.tag.Equals("Player"))
-            rigidbod.velocity = Vector3.zero;
+        {
+            GetComponent<NavMeshAgent>().Stop();
+        }
+    }
+
+    /**
+    *  If other enters the boundary, execute event
+    */
+    void OnCollisionExit(Collision other)
+    {
+        if (other.collider.tag.Equals("Player"))
+        {
+            GetComponent<NavMeshAgent>().Resume();
+        }
     }
 
 }

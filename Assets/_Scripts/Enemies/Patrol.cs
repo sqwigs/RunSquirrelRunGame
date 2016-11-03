@@ -1,15 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Patrol : MonoBehaviour
+public class Patrol
 {
-
+    private Transform zone;
     private int destPoint = 0;
     private int totalPoints;
 
-    void Start()
+    //void Start()
+    //{
+    //    totalPoints = transform.childCount;
+    //}
+
+    public Patrol (GameObject _zone)
     {
-        totalPoints = transform.childCount;
+        this.zone = _zone.GetComponent<Transform>();
+        totalPoints = zone.childCount;
     }
 
     public int totalPatrolDest()
@@ -19,7 +25,7 @@ public class Patrol : MonoBehaviour
 
     public Vector3 getPatrolPoint()
     {
-        Transform patrolPoint = transform.GetChild(destPoint); ;
+        Transform patrolPoint = zone.GetChild(destPoint); ;
         // Choose the next point in the array as the destination,
         // cycling to the start if necessary.
         destPoint = (destPoint + 1) % totalPoints;
