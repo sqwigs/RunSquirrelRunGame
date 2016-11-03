@@ -58,11 +58,11 @@ public abstract class Navigable : MonoBehaviour
 
         if (Mathf.Abs(_navAgent.destination.x) - Math.Abs(_navAgent.nextPosition.x) > 0)
         {
-            sprite.flipX = true;
+            sprite.flipX = false;
         }
         else
         {
-            sprite.flipX = false;
+            sprite.flipX = true;
         }
 
         transform.rotation = Quaternion.Euler(270, 0.0f, 0.0f);
@@ -85,7 +85,7 @@ public abstract class Navigable : MonoBehaviour
     /// character uses Navmesh to move towards target. 
     /// </summary>
     /// <param name="targetPosition"></param>
-    protected virtual void targetedMovement()
+    protected void targetedMovement()
     {
         _navAgent.destination = target;
     }
@@ -94,7 +94,7 @@ public abstract class Navigable : MonoBehaviour
     /// Target was found by detection sphere, and will now move towards that point.
     /// </summary>
     /// <param name="position"></param>
-    public void TargetFound(Vector3 curPos)
+    public virtual void TargetFound(Vector3 curPos)
     {
         target = curPos;
         target.y = 0.0f;
@@ -104,7 +104,7 @@ public abstract class Navigable : MonoBehaviour
     /// <summary>
     /// Target Was Lost and will now move accordingly to patrol 
     /// </summary>
-    public void TargetLost(Vector3 lastKnownPos)
+    public virtual void TargetLost(Vector3 lastKnownPos)
     {
         target = lastKnownPos;
         target.y = 0.0f;

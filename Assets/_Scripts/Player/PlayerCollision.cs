@@ -14,6 +14,7 @@ public class PlayerCollision : MonoBehaviour {
     void Start()
     {
         DOTween.Init(true, false, LogBehaviour.ErrorsOnly);
+
         GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
 
         if (gameControllerObject != null)

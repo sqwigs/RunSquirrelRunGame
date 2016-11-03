@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
 
     // Used for movement control
     private Rigidbody rigidBod;
-    //private SpriteRenderer spriteRend;
     private float moveHorz, moveVert;
 
     // Used for sprite control
@@ -30,8 +29,9 @@ public class PlayerController : MonoBehaviour
     // Freezing Power Control
     public float freezePowerCooldown;
     public float freezePowerActive;
-    private bool freezeOn;
+    private bool freezeOn = true;
     private GameObject freezeSphere;
+    private GameController gameController;
 
     #endregion
 
@@ -39,7 +39,6 @@ public class PlayerController : MonoBehaviour
     {
         DOTween.Init(true, false, LogBehaviour.ErrorsOnly);
         rigidBod = this.GetComponent<Rigidbody>();
-        //spriteRend = this.GetComponent<SpriteRenderer>();
 
         // Initializes and sets the sprite object to switch to when direction changes
         spList = gameObject.GetComponentsInChildren<SpriteRenderer>();
@@ -51,10 +50,27 @@ public class PlayerController : MonoBehaviour
             speed = 10;
         }
 
+        // get the detection sphere game object to handle
         if (!GetChild(this.gameObject, "DetectionSphere", out freezeSphere))
         {
             Debug.Log("Could not find child \"DetectionSphere\" of player object");
         }
+
+        // retrieve GameController Object
+        GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
+
+        if (gameControllerObject != null)
+        {
+            gameController = gameControllerObject.GetComponent<GameController>();
+        }
+        else
+        {
+            Debug.Log("Cannot find 'GameController' script");
+        }
+
+        // turn on all freezing controls
+        freezeSphere.SetActive(false);
+        gameController.setCooldownText("ON");
     }
 
     /// <summary>
@@ -111,27 +127,41 @@ public class PlayerController : MonoBehaviour
         changeHorzSpriteDirection(moveHorz);
         setVertSpriteDirection(moveVert);
 
-        if (freezeOn && Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && freezeOn)
         {
             freezeOn = false;
             StartCoroutine(freeze());
         }
     }
 
+
+
+    #endregion
+
+    #region freeze ability
+    /// <summary>
+    /// Freezing Coroutine that will turn freezing ability on, thus freezing all enemies in range. Then after freezePowerActive seconds
+    /// have passed, the ability will shut down and will go into cooldown until freezePowerCooldown time has expired. 
+    /// </summary>
     private IEnumerator freeze()
     {
-        freezeSphere.SetActive(true);
+        freezeSphere.SetActive(true); // turn on detection sphere
+
+        gameController.setCooldownText("ACTIVE");
 
         yield return new WaitForSeconds(freezePowerActive);
 
-        freezeSphere.SetActive(false);
+        freezeSphere.SetActive(false); // turn off detection sphere
+
+        gameController.setCooldownText("OFF");
 
         yield return new WaitForSeconds(freezePowerCooldown);
 
         freezeOn = true;
 
-    }
+        gameController.setCooldownText("ON"); // turn on detection sphere
 
+    }
     #endregion
 
     #region player collision control
