@@ -16,9 +16,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rigidBod;
     private float moveHorz, moveVert;
 
-    // Used for sprite control
-    private SpriteRenderer[] spList;
-    private int previousState;
+    // Used for model control
+	private Quaternion rotation;
+	private Animator runningAnimu;
 
     // Control if player was hit by enemy.
     public float recoilTime; // how much time the player will recoil backwards
@@ -37,13 +37,12 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        DOTween.Init(true, false, LogBehaviour.ErrorsOnly);
-        rigidBod = this.GetComponent<Rigidbody>();
+        DOTween.Init(true, false, LogBehaviour.ErrorsOnly); // DOTween Intialziation.
+        rigidBod = this.GetComponent<Rigidbody>(); 
 
-        // Initializes and sets the sprite object to switch to when direction changes
-        spList = gameObject.GetComponentsInChildren<SpriteRenderer>();
+		rotation = transform.rotation;
 
-        previousState = 2; // intial state facing the right
+		GameObject Animation;
 
         if (speed <= 0)
         {
@@ -55,6 +54,14 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Could not find child \"DetectionSphere\" of player object");
         }
+
+		// get the animator game object to handle
+		if (!GetChild(this.gameObject, "Running", out Animation))
+		{
+			Debug.Log("Could not find child \"Running\" of player object");
+		}
+
+		runningAnimu = Animation.GetComponent<Animator> ();
 
         // retrieve GameController Object
         GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
@@ -113,8 +120,25 @@ public class PlayerController : MonoBehaviour
 		{
             // Determine vector to move character
             Vector3 movementVector = new Vector3(moveHorz, 0.0f, moveVert);
-            rigidBod.velocity = movementVector * -speed;
-        }
+			float tempSpeed = speed;
+            //rigidBod.velocity = movementVector * -speed;
+			if (moveHorz != 0 || moveVert != 0) {
+				runningAnimu.enabled = true;
+				if (Math.Abs (moveHorz) > 0.9 || Math.Abs (moveVert) > 0.9) {
+					runningAnimu.speed = 2;
+					tempSpeed *= 1.2f;
+				} else {
+					runningAnimu.speed = 1;
+					tempSpeed *= 0.5f;
+				}
+				rotation = Quaternion.LookRotation (-1 * movementVector);
+			} else {
+				runningAnimu.enabled = false;
+			}
+
+			rigidBod.velocity = movementVector * -(tempSpeed);
+			transform.rotation = rotation;
+		}
 
     }
 
@@ -124,8 +148,6 @@ public class PlayerController : MonoBehaviour
         moveHorz = Input.GetAxis("Horizontal");
         moveVert = Input.GetAxis("Vertical");
 
-        changeHorzSpriteDirection(moveHorz);
-        setVertSpriteDirection(moveVert);
 
         if (Input.GetKeyDown(KeyCode.F) && freezeOn)
         {
@@ -202,48 +224,5 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-    #region Sprite Direction
-
-    /// <summary>
-    /// Sets the sprite's vertical direction based on param vertDir
-    /// </summary>
-    /// <param name="vertDir"></param>
-    private void setVertSpriteDirection(float vertDir)
-    {
-        // Change Sprite if necessary
-        if (vertDir < 0 && previousState != 0)
-        {
-            spList[0].enabled = true;
-            spList[previousState].enabled = false;
-            previousState = 0;
-        }
-        else if (vertDir > 0 && previousState != 1)
-        {
-            spList[1].enabled = true;
-            spList[previousState].enabled = false;
-            previousState = 1;
-        }
-    }
-
-    /// <summary>
-    /// Sets the sprite's horizontal direction based on param horzDir
-    /// </summary>
-    /// <param name="horzDir"></param>
-    private void changeHorzSpriteDirection(float horzDir)
-    {
-        // Change Sprite if necessary
-        if (horzDir < 0 && previousState != 3)
-        {
-            spList[3].enabled = true;
-            spList[previousState].enabled = false;
-            previousState = 3;
-        }
-        else if (horzDir > 0 && previousState != 2)
-        {
-            spList[2].enabled = true;
-            spList[previousState].enabled = false;
-            previousState = 2;
-        }
-    }
-    #endregion
+   
 }
