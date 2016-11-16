@@ -4,30 +4,6 @@ using System;
 
 public class DogNavigation : Navigable
 {
-    /// <summary>
-    /// Finds a random point within the nav mesh within the range given. Returns a boolean if a point was found. 
-    /// </summary>
-    /// <param name="center"> Starting point for which to find point within Navmesh </param>
-    /// <param name="range"> Radius range within the Nav mesh</param>
-    /// <param name="result"> Vector to found destination in Nav mesh</param>
-    /// <returns> true if point was found, otherwise returns false </returns>
-    private bool RandomPoint(Vector3 center, float range, out Vector3 result)
-    {
-        for (int i = 0; i < 30; i++)
-        {
-            Vector3 randomPoint = center + UnityEngine.Random.insideUnitSphere * range;
-            randomPoint.y = 0.0f;
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
-            {
-                result = hit.position;
-                return true;
-            }
-        }
-        result = Vector3.zero;
-        return false;
-    }
-
     protected override void patrolMovement()
     {
         if (pause)
@@ -74,4 +50,12 @@ public class DogNavigation : Navigable
 
     }
 
+    protected override IEnumerator FreezeInPlace()
+    {
+        _navAgent.Stop();
+
+        yield return new WaitForSeconds(timeFrozen);
+
+        _navAgent.Resume();
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class WolfNavigation : Navigable {
 
@@ -54,5 +55,14 @@ public class WolfNavigation : Navigable {
             _navAgent.speed /= 2;
 
         base.TargetLost(lastKnownPos);
+    }
+
+    protected override IEnumerator FreezeInPlace()
+    {
+        _navAgent.Stop();
+
+        yield return new WaitForSeconds(timeFrozen);
+
+        _navAgent.Resume();
     }
 }

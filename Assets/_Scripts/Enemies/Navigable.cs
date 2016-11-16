@@ -112,13 +112,29 @@ public abstract class Navigable : MonoBehaviour
         targetFound = false;
     }
 
-    private IEnumerator FreezeInPlace ()
+    protected abstract IEnumerator FreezeInPlace();
+
+    /// <summary>
+    /// Finds a random point within the nav mesh within the range given. Returns a boolean if a point was found. 
+    /// </summary>
+    /// <param name="center"> Starting point for which to find point within Navmesh </param>
+    /// <param name="range"> Radius range within the Nav mesh</param>
+    /// <param name="result"> Vector to found destination in Nav mesh</param>
+    /// <returns> true if point was found, otherwise returns false </returns>
+    protected bool RandomPoint(Vector3 center, float range, out Vector3 result)
     {
-        _navAgent.Stop();
-
-        yield return new WaitForSeconds(timeFrozen);
-
-        _navAgent.Resume();
+        for (int i = 0; i < 30; i++)
+        {
+            Vector3 randomPoint = center + UnityEngine.Random.insideUnitSphere * range;
+            randomPoint.y = 0.0f;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+            {
+                result = hit.position;
+                return true;
+            }
+        }
+        result = Vector3.zero;
+        return false;
     }
-
 }

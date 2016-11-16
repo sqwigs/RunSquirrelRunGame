@@ -21,10 +21,13 @@ public class PlayerController : MonoBehaviour
 	private Animator runningAnimu;
 
     // Control if player was hit by enemy.
-    public float recoilTime; // how much time the player will recoil backwards
     public float maxRecoilDist; // max distance that the player can recoil
     public float recoveryTime; // max amount of time before player regains control. 
+    public Material baseMat;
+    public Material hitMat;
+    public float invFrames;
     private bool collisionEnabled = true;
+    private SkinnedMeshRenderer squirrelMesh;
 
     // Freezing Power Control
     public float freezePowerCooldown;
@@ -42,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
 		rotation = transform.rotation;
 
-		GameObject Animation;
+		GameObject Animation, squirrelMeshObj;
 
         if (speed <= 0)
         {
@@ -60,8 +63,19 @@ public class PlayerController : MonoBehaviour
 		{
 			Debug.Log("Could not find child \"Running\" of player object");
 		}
+        else
+        {
+            runningAnimu = Animation.GetComponent<Animator>();
+        }
 
-		runningAnimu = Animation.GetComponent<Animator> ();
+        if (!GetChild(this.gameObject, "squirrelMesh", out squirrelMeshObj, true))
+        {
+            Debug.Log("Could not find child \"Squirrel Mesh\" of player object");
+        }
+        else
+        {
+            squirrelMesh = squirrelMeshObj.GetComponent<SkinnedMeshRenderer>();
+        }
 
         // retrieve GameController Object
         GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
@@ -116,30 +130,31 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // recoil of player if hit
-        if (collisionEnabled)
-		{
+        if (collisionEnabled && (Math.Abs(moveHorz) > 0.3 || Math.Abs(moveVert) > 0.3))
+        {
             // Determine vector to move character
             Vector3 movementVector = new Vector3(moveHorz, 0.0f, moveVert);
-			float tempSpeed = speed;
-            //rigidBod.velocity = movementVector * -speed;
-			if (moveHorz != 0 || moveVert != 0) {
-				runningAnimu.enabled = true;
-				if (Math.Abs (moveHorz) > 0.9 || Math.Abs (moveVert) > 0.9) {
-					runningAnimu.speed = 2;
-					tempSpeed *= 1.2f;
-				} else {
-					runningAnimu.speed = 1;
-					tempSpeed *= 0.5f;
-				}
-				rotation = Quaternion.LookRotation (-1 * movementVector);
-			} else {
-				runningAnimu.enabled = false;
-			}
+            float tempSpeed = speed;
 
-			rigidBod.velocity = movementVector * -(tempSpeed);
-			transform.rotation = rotation;
-		}
+            // Animation run 
+            runningAnimu.enabled = true;
+            runningAnimu.speed = 2;
+            if (Math.Abs(moveHorz) > 0.9 || Math.Abs(moveVert) > 0.9)
+            {
+                runningAnimu.speed = 2;
+                //tempSpeed *= 1.2f;
+            } else {
+                runningAnimu.speed = 1;
+                //tempSpeed *= 0.5f;
+            }
+            rotation = Quaternion.LookRotation(-1 * movementVector);
 
+            rigidBod.velocity = movementVector * -(tempSpeed);
+            transform.rotation = rotation;
+        } else {
+            runningAnimu.enabled = false;
+            rigidBod.velocity = Vector3.zero;
+        }
     }
 
     void FixedUpdate()
@@ -147,7 +162,6 @@ public class PlayerController : MonoBehaviour
         // get movementinput from user
         moveHorz = Input.GetAxis("Horizontal");
         moveVert = Input.GetAxis("Vertical");
-
 
         if (Input.GetKeyDown(KeyCode.F) && freezeOn)
         {
@@ -193,11 +207,16 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private IEnumerator recoil (Vector3 force)
 	{
-		rigidBod.AddForce(force * maxRecoilDist);
+        this.gameObject.GetComponent<Collider>().enabled = false;
 
-		yield return new WaitForSeconds (recoveryTime);
+        this.rigidBod.velocity = -1 * (this.rigidBod.velocity.normalized * maxRecoilDist);
+        squirrelMesh.material = hitMat;
 
-		collisionEnabled = true;
+        yield return new WaitForSeconds (recoveryTime);
+
+        squirrelMesh.material = baseMat;
+        this.gameObject.GetComponent<Collider>().enabled = true;
+        collisionEnabled = true;
 
 	}
 
