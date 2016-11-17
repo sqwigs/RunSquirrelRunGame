@@ -7,11 +7,13 @@ using UnityEngine.UI;
 public class GameController : MonoBehaviour
 {
     // GUI Interface for user
-    public Text healthText;
-    public Text restartText;
-    public Text gameOverText;
-    public Text cooldownText;
-    public GUIText levelCompleteText;
+    //public Text healthText;
+    //public Text restartText;
+    //public Text gameOverText;
+    //public Text cooldownText;
+    //public GUIText levelCompleteText;
+
+    private HealthControl healthUI;
 
     // Controlling Var
     private bool gameOver;
@@ -20,8 +22,19 @@ public class GameController : MonoBehaviour
     // Use this for initialization
     void Start ()
     {
-        levelCompleteText.text = "";
+       // levelCompleteText.text = "";
         gameOver = false;
+
+        GameObject healthUIObject = GameObject.FindGameObjectWithTag("HealthUI");
+
+        if (healthUIObject != null)
+        {
+            healthUI = healthUIObject.GetComponent<HealthControl>();
+        }
+        else
+        {
+            Debug.Log("Cannot find 'HealthUI' script");
+        }
     }
 
     // Update is called once per frame
@@ -31,13 +44,11 @@ public class GameController : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.R))
             {
-                //Application.LoadLevel(Application.loadedLevel);
                 SceneManager.LoadSceneAsync(0);
             }
         }
 
 		if (Input.GetKeyDown (KeyCode.T)) { // Developer Debugging Code
-            //Application.LoadLevel (Application.loadedLevel);
             SceneManager.LoadSceneAsync("FirstLevelProto");
 		}
 
@@ -46,7 +57,7 @@ public class GameController : MonoBehaviour
             SceneManager.LoadScene(0);
         }
 
-		healthText.text = "Health : " + playerHealth;
+		//healthText.text = "Health : " + playerHealth;
         
 	}
 
@@ -55,9 +66,9 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void levelComplete()
     {
-        flipTextSwitches();
-        levelCompleteText.text = "LEVEL COMPLETE!";
-        restartText.text = "Press R to Restart!";
+       // flipTextSwitches();
+       // levelCompleteText.text = "LEVEL COMPLETE!";
+      //  restartText.text = "Press R to Restart!";
         gameOver = true;
     }
 
@@ -66,10 +77,10 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void GameOver ()
 	{
-        flipTextSwitches();
-        gameOverText.text = "Game Over!";
+        //flipTextSwitches();
+       // gameOverText.text = "Game Over!";
         playerHealth = 0;
-        restartText.text = "Press R to Restart!";
+       // restartText.text = "Press R to Restart!";
 		gameOver = true;
 	}
 
@@ -79,6 +90,7 @@ public class GameController : MonoBehaviour
 	/// <returns><c>true</c>, if hit was playered, <c>false</c> otherwise.</returns>
 	public bool playerHit () {
 		playerHealth -= 10;
+        healthUI.healthUpdate();
 
 		if (playerHealth < 1) {
 			GameOver ();
@@ -91,13 +103,13 @@ public class GameController : MonoBehaviour
     /// <summary>
     /// Will fiip the restartText, cooldownText, and gameOverText active switchs
     /// </summary>
-    private void flipTextSwitches ()
-    {
+    //private void flipTextSwitches ()
+    //{
         
-        restartText.gameObject.SetActive(true);
-        cooldownText.gameObject.SetActive(false);
-        gameOverText.gameObject.SetActive(true);
-    }
+    //    restartText.gameObject.SetActive(true);
+    //    cooldownText.gameObject.SetActive(false);
+    //    gameOverText.gameObject.SetActive(true);
+    //}
 
     /// <summary>
     /// Will set the internal cooldown text
@@ -105,6 +117,6 @@ public class GameController : MonoBehaviour
     /// <param name="isActive" >determines what the cooldown text will say to player. </param>
     public void setCooldownText (string status)
     {
-        cooldownText.text = "Freeze : " + status;
+        //cooldownText.text = "Freeze : " + status;
     }
 }

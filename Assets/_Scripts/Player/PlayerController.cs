@@ -209,10 +209,21 @@ public class PlayerController : MonoBehaviour
 	{
         this.gameObject.GetComponent<Collider>().enabled = false;
 
-        this.rigidBod.velocity = -1 * (this.rigidBod.velocity.normalized * maxRecoilDist);
+        // TODO: Add recoil for down and up directional vectors
+        if (Vector3.Angle(Vector3.right, rigidBod.velocity) > 90)
+        {
+            transform.DOMove(transform.position - (transform.position.normalized * maxRecoilDist), recoveryTime);
+        }
+        else
+        {
+            transform.DOMove(transform.position + (transform.position.normalized*maxRecoilDist), recoveryTime);
+        }
+
         squirrelMesh.material = hitMat;
 
         yield return new WaitForSeconds (recoveryTime);
+
+        transform.DOKill();
 
         squirrelMesh.material = baseMat;
         this.gameObject.GetComponent<Collider>().enabled = true;

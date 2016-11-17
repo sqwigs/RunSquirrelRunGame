@@ -56,6 +56,10 @@ public class PlayerCollision : MonoBehaviour {
         {
             Destroy(other.gameObject);
         }
+        else if (other.collider.tag.Equals("Spikes"))
+        {
+            gameController.GameOver();
+        }
 
         if (player.getCollisionEnabled() && gameController.playerHit())
         {
