@@ -159,9 +159,18 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        // get movementinput from user
-        moveHorz = Input.GetAxis("Horizontal");
-        moveVert = Input.GetAxis("Vertical");
+        if (Input.GetMouseButtonDown(0))
+        {
+            moveHorz = Input.GetAxis("Mouse X");
+            moveVert = Input.GetAxis("Mouse Z");
+        }
+        else
+        {
+            // get movementinput from user
+            moveHorz = Input.GetAxis("Horizontal");
+            moveVert = Input.GetAxis("Vertical");
+        }
+       
 
         if (Input.GetKeyDown(KeyCode.F) && freezeOn)
         {
