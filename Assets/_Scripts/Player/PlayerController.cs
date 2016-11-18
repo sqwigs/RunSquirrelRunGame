@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
 
     #region Member Variables
 
+	private bool OSX;
+
     // Player Movement Control Variables
     public float speed;
 
@@ -40,6 +42,12 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+		if (Application.platform == RuntimePlatform.OSXPlayer) {
+			OSX = true;
+		} else {
+			OSX = false;
+		}
+
         DOTween.Init(true, false, LogBehaviour.ErrorsOnly); // DOTween Intialziation.
         rigidBod = this.GetComponent<Rigidbody>(); 
 
@@ -142,10 +150,10 @@ public class PlayerController : MonoBehaviour
             if (Math.Abs(moveHorz) > 0.9 || Math.Abs(moveVert) > 0.9)
             {
                 runningAnimu.speed = 2;
-                //tempSpeed *= 1.2f;
+                tempSpeed *= 1.2f;
             } else {
                 runningAnimu.speed = 1;
-                //tempSpeed *= 0.5f;
+                tempSpeed *= 0.5f;
             }
             rotation = Quaternion.LookRotation(-1 * movementVector);
 
@@ -162,21 +170,26 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             moveHorz = Input.GetAxis("Mouse X");
-            moveVert = Input.GetAxis("Mouse Z");
+            moveVert = Input.GetAxis("Mouse Y");
         }
         else
         {
             // get movementinput from user
             moveHorz = Input.GetAxis("Horizontal");
             moveVert = Input.GetAxis("Vertical");
-        }
-       
+       }
 
-        if (Input.GetKeyDown(KeyCode.F) && freezeOn)
-        {
-            freezeOn = false;
-            StartCoroutine(freeze());
-        }
+//		if (OSX) {
+//			if (Input.GetKey("joystick button 4"));
+//		} else {
+//			if (Input.GetKey("joystick button 14"));
+//		}
+
+		if (Input.GetKeyDown(KeyCode.F) && freezeOn)
+		{
+			freezeOn = false;
+			StartCoroutine(freeze());
+		}
     }
 
 
