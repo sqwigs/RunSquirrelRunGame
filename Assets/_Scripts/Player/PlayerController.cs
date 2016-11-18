@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-		if (Application.platform == RuntimePlatform.OSXPlayer) {
+		if (Application.platform == RuntimePlatform.OSXEditor) {
 			OSX = true;
 		} else {
 			OSX = false;
@@ -167,6 +167,8 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+		
+
         if (Input.GetMouseButtonDown(0))
         {
             moveHorz = Input.GetAxis("Mouse X");
@@ -179,11 +181,17 @@ public class PlayerController : MonoBehaviour
             moveVert = Input.GetAxis("Vertical");
        }
 
-//		if (OSX) {
-//			if (Input.GetKey("joystick button 4"));
-//		} else {
-//			if (Input.GetKey("joystick button 14"));
-//		}
+
+		if (OSX) {
+			if (Input.GetKeyDown(KeyCode.JoystickButton6)) {
+				freezeOn = false;
+				StartCoroutine(freeze());
+			}
+			if (Input.GetKeyDown(KeyCode.JoystickButton7)) {
+				freezeOn = false;
+				StartCoroutine(freeze());
+			}
+		}
 
 		if (Input.GetKeyDown(KeyCode.F) && freezeOn)
 		{
