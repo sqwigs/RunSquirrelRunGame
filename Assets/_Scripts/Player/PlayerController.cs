@@ -20,7 +20,8 @@ public class PlayerController : MonoBehaviour
 
     // Used for model control
 	private Quaternion rotation;
-	private Animator runningAnimu;
+	private GameObject runningAnimu;
+    private GameObject idleAnimu;
 
     // Control if player was hit by enemy.
     public float maxRecoilDist; // max distance that the player can recoil
@@ -67,15 +68,18 @@ public class PlayerController : MonoBehaviour
         }
 
 		// get the animator game object to handle
-		if (!GetChild(this.gameObject, "Running", out Animation))
+		if (!GetChild(this.gameObject, "Running", out runningAnimu))
 		{
 			Debug.Log("Could not find child \"Running\" of player object");
 		}
-        else
+
+        // get the animator game object to handle
+        if (!GetChild(this.gameObject, "Idle", out idleAnimu))
         {
-            runningAnimu = Animation.GetComponent<Animator>();
+            Debug.Log("Could not find child \"Idle\" of player object");
         }
 
+        // retrieve the meshes for the squirrel recoil effect. 
         if (!GetChild(this.gameObject, "squirrelMesh", out squirrelMeshObj, true))
         {
             Debug.Log("Could not find child \"Squirrel Mesh\" of player object");
@@ -99,7 +103,6 @@ public class PlayerController : MonoBehaviour
 
         // turn on all freezing controls
         freezeSphere.SetActive(false);
-        gameController.setCooldownText("ON");
     }
 
     /// <summary>
@@ -133,6 +136,7 @@ public class PlayerController : MonoBehaviour
         return false;
     }
 
+
     #region Updates
 
     void Update()
@@ -145,14 +149,15 @@ public class PlayerController : MonoBehaviour
             float tempSpeed = speed;
 
             // Animation run 
-            runningAnimu.enabled = true;
-            runningAnimu.speed = 2;
+            runningAnimu.SetActive(true);
+            idleAnimu.SetActive(false);
+           // runningAnimu.GetComponent<Animator>().speed = 2;
             if (Math.Abs(moveHorz) > 0.9 || Math.Abs(moveVert) > 0.9)
             {
-                runningAnimu.speed = 2;
+                runningAnimu.GetComponent<Animator>().speed = 2;
                 tempSpeed *= 1.2f;
             } else {
-                runningAnimu.speed = 1;
+                runningAnimu.GetComponent<Animator>().speed = 1;
                 tempSpeed *= 0.5f;
             }
             rotation = Quaternion.LookRotation(-1 * movementVector);
@@ -160,7 +165,8 @@ public class PlayerController : MonoBehaviour
             rigidBod.velocity = movementVector * -(tempSpeed);
             transform.rotation = rotation;
         } else {
-            runningAnimu.enabled = false;
+            runningAnimu.SetActive(false);
+            idleAnimu.SetActive(true);
             rigidBod.velocity = Vector3.zero;
         }
     }
