@@ -8,23 +8,24 @@ public class DogNavigation : Navigable
     {
         if (pause)
         {
-            if (time > pauseWait)
+            if (time > movementTime) // how long to move for
             {
                 pause = !pause;
                 time = 0.0f;
                 _navAgent.ResetPath();
+
             }
             time += Time.deltaTime;
         }
         else {
             if (canMove)
             {
-                    randMovement();
-                    pause = !pause;
-                    canMove = !canMove;
+                randMovement();
+                pause = !pause;
+                canMove = !canMove;
             }
             else {
-                if (time > moveWait)
+                if (time > waitTime) // wait to move again
                 {
                     canMove = !canMove;
                     time = 0.0f;
@@ -32,8 +33,6 @@ public class DogNavigation : Navigable
                 time += Time.deltaTime;
             }
         }
-
-        transform.rotation = Quaternion.Euler(270, 0.0f, 0.0f);
     }
 
     /// <summary>

@@ -7,9 +7,9 @@ public class NavFoxEnemy : Navigable
 
     protected override void patrolMovement()
     {
-        if (pause)
+        if (pause) 
         {
-            if (time > pauseWait)
+            if (time > movementTime) // how long to move for
             {
                 pause = !pause;
                 time = 0.0f;
@@ -26,7 +26,7 @@ public class NavFoxEnemy : Navigable
                 canMove = !canMove;
             }
             else {
-                if (time > moveWait)
+                if (time > waitTime) // wait to move again
                 {
                     canMove = !canMove;
                     time = 0.0f;

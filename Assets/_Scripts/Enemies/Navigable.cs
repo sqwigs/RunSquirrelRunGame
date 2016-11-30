@@ -6,8 +6,8 @@ public abstract class Navigable : MonoBehaviour
 {
     // movement controls used by Designers
     public float walkRadius;
-    public float pauseWait;
-    public float moveWait;
+    public float movementTime;
+    public float waitTime;
 
     // Nav Mesh Controls
     protected NavMeshAgent _navAgent;
