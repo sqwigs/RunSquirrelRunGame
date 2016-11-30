@@ -1,0 +1,172 @@
+fileFormatVersion: 2
+guid: c75dd6238fe00674d9f394d1e58403a1
+timeCreated: 1480539182
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: fox3:polySurface9
+    100004: head
+    100006: joint1
+    100008: joint1 1
+    100010: joint6
+    100012: joint6 1
+    100014: L_Ankle
+    100016: L_Clav
+    100018: L_Ear
+    100020: L_EarTip
+    100022: L_Foot
+    100024: L_Hand
+    100026: L_Hip
+    100028: L_Knee
+    100030: L_Shoulder
+    100032: L_Wrist
+    100034: polySurface10
+    100036: polySurface11
+    100038: polySurface13
+    100040: R_Ankle
+    100042: R_Clav
+    100044: R_Ear
+    100046: R_EarTip
+    100048: R_Foot
+    100050: R_Hand
+    100052: R_Hip
+    100054: R_Knee
+    100056: R_Shoulder
+    100058: R_Wrist
+    100060: root
+    100062: rootcntrl
+    100064: spine1
+    100066: spine2
+    100068: spine3
+    100070: tail1
+    100072: tail10
+    100074: tail11
+    100076: tail2
+    100078: tail3
+    100080: tail4
+    100082: tail5
+    100084: tail6
+    100086: tail7
+    100088: tail8
+    100090: tail9
+    100092: transform1
+    100094: transform2
+    100096: transform3
+    400000: //RootNode
+    400002: fox3:polySurface9
+    400004: head
+    400006: joint1
+    400008: joint1 1
+    400010: joint6
+    400012: joint6 1
+    400014: L_Ankle
+    400016: L_Clav
+    400018: L_Ear
+    400020: L_EarTip
+    400022: L_Foot
+    400024: L_Hand
+    400026: L_Hip
+    400028: L_Knee
+    400030: L_Shoulder
+    400032: L_Wrist
+    400034: polySurface10
+    400036: polySurface11
+    400038: polySurface13
+    400040: R_Ankle
+    400042: R_Clav
+    400044: R_Ear
+    400046: R_EarTip
+    400048: R_Foot
+    400050: R_Hand
+    400052: R_Hip
+    400054: R_Knee
+    400056: R_Shoulder
+    400058: R_Wrist
+    400060: root
+    400062: rootcntrl
+    400064: spine1
+    400066: spine2
+    400068: spine3
+    400070: tail1
+    400072: tail10
+    400074: tail11
+    400076: tail2
+    400078: tail3
+    400080: tail4
+    400082: tail5
+    400084: tail6
+    400086: tail7
+    400088: tail8
+    400090: tail9
+    400092: transform1
+    400094: transform2
+    400096: transform3
+    4300000: polySurface13
+    9500000: //RootNode
+    13700000: polySurface13
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
