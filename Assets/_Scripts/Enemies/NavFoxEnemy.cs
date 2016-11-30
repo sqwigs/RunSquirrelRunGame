@@ -14,6 +14,7 @@ public class NavFoxEnemy : Navigable
                 pause = !pause;
                 time = 0.0f;
                 _navAgent.ResetPath();
+          
             }
             time += Time.deltaTime;
         }
@@ -34,7 +35,6 @@ public class NavFoxEnemy : Navigable
             }
         }
 
-        transform.rotation = Quaternion.Euler(270, 0.0f, 0.0f);
     }
 
     /// <summary>
@@ -45,8 +45,9 @@ public class NavFoxEnemy : Navigable
         Vector3 finalPosition;
         if (RandomPoint(spawnPos, walkRadius, out finalPosition))
         {
-            finalPosition.y = 0.0f;
+            finalPosition.y = transform.position.y;
             _navAgent.destination = finalPosition;
+            _navAgent.updateRotation = true;
         }
 
     }

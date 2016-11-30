@@ -19,6 +19,15 @@ public class EnemyCollision : MonoBehaviour
         {
             GetComponent<NavMeshAgent>().Stop();
         }
+        else if (other.collider.tag.Equals("Arrow"))
+        {
+            Destroy(other.gameObject);
+            Destroy(this.gameObject);
+        }
+        else if(other.collider.tag.Equals("Spikes"))
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     /**

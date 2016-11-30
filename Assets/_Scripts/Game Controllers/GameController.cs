@@ -42,10 +42,7 @@ public class GameController : MonoBehaviour
     {
 	    if (gameOver)
         {
-            if(Input.GetKeyDown(KeyCode.R))
-            {
-                SceneManager.LoadScene(0);
-            }
+            SceneManager.LoadScene(0); // should be main menu
         }
 
 		if (Input.GetKeyDown (KeyCode.T)) { // Developer Debugging Code
@@ -66,9 +63,6 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void levelComplete()
     {
-       // flipTextSwitches();
-       // levelCompleteText.text = "LEVEL COMPLETE!";
-      //  restartText.text = "Press R to Restart!";
         gameOver = true;
     }
 
@@ -77,10 +71,7 @@ public class GameController : MonoBehaviour
     /// </summary>
     public void GameOver ()
 	{
-        //flipTextSwitches();
-       // gameOverText.text = "Game Over!";
         playerHealth = 0;
-       // restartText.text = "Press R to Restart!";
 		gameOver = true;
 	}
 
@@ -99,17 +90,6 @@ public class GameController : MonoBehaviour
 
 		return false;
 	}
-
-    /// <summary>
-    /// Will fiip the restartText, cooldownText, and gameOverText active switchs
-    /// </summary>
-    //private void flipTextSwitches ()
-    //{
-        
-    //    restartText.gameObject.SetActive(true);
-    //    cooldownText.gameObject.SetActive(false);
-    //    gameOverText.gameObject.SetActive(true);
-    //}
 
     /// <summary>
     /// Will set the internal cooldown text

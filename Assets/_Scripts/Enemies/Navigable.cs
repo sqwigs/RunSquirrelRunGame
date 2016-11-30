@@ -39,8 +39,10 @@ public abstract class Navigable : MonoBehaviour
 
         spawnPos = transform.position;
 
-        pause = true;
-        canMove = false;
+        _navAgent.updateRotation = false;
+
+        pause = false;
+        canMove = true;
         targetFound = false;
         time += Time.deltaTime;
     }
@@ -55,17 +57,6 @@ public abstract class Navigable : MonoBehaviour
         {
             patrolMovement();
         }
-
-        if (Mathf.Abs(_navAgent.destination.x) - Math.Abs(_navAgent.nextPosition.x) > 0)
-        {
-            sprite.flipX = false;
-        }
-        else
-        {
-            sprite.flipX = true;
-        }
-
-        transform.rotation = Quaternion.Euler(270, 0.0f, 0.0f);
     }
 
     /// <summary>
@@ -97,7 +88,7 @@ public abstract class Navigable : MonoBehaviour
     public virtual void TargetFound(Vector3 curPos)
     {
         target = curPos;
-        target.y = 0.0f;
+        //target.y = 0.0f;
         targetFound = true;
     }
 
@@ -107,7 +98,7 @@ public abstract class Navigable : MonoBehaviour
     public virtual void TargetLost(Vector3 lastKnownPos)
     {
         target = lastKnownPos;
-        target.y = 0.0f;
+        //target.y = 0.0f;
         patrolMovement();
         targetFound = false;
     }
@@ -126,7 +117,7 @@ public abstract class Navigable : MonoBehaviour
         for (int i = 0; i < 30; i++)
         {
             Vector3 randomPoint = center + UnityEngine.Random.insideUnitSphere * range;
-            randomPoint.y = 0.0f;
+            //randomPoint.y = 0.0f;
             NavMeshHit hit;
             if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
             {

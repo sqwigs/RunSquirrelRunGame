@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class SpikeHazard : HazardInterface {
 
-    public float moveTime;
+    private static float moveTime = 1;
     private Transform transform;
 
     // Use this for initialization
@@ -13,6 +13,7 @@ public class SpikeHazard : HazardInterface {
         DOTween.Init(true, false, LogBehaviour.ErrorsOnly);
         transform = GetComponent<Transform>();
 		StartCoroutine (trapControl () );
+        
 	}
 
     /// <summary>
@@ -31,8 +32,6 @@ public class SpikeHazard : HazardInterface {
 
 			transform.DOMoveY(transform.position.y - transform.lossyScale.y, moveTime);
 
-
-//			yield return new WaitForSeconds (resetTime);
 		}
 	}
 	
