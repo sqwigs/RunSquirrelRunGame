@@ -25,6 +25,10 @@ public abstract class Navigable : MonoBehaviour
     // freeze control
     public float timeFrozen;
 
+    // Mesh Animation Controls
+    protected GameObject runningAnimu;
+    protected GameObject idleAnimu;
+
     /// <summary>
     /// Establish base for navigation variables used by child classes. 
     /// 
@@ -35,11 +39,24 @@ public abstract class Navigable : MonoBehaviour
     {
         _navAgent = this.GetComponent<NavMeshAgent>();
 
+        // inherited agents will auto rotate along nav mesh vector
+        _navAgent.updateRotation = true;
+
+        // get the animator game object to handle
+        if (!GetChild(this.gameObject, "Running", out runningAnimu))
+        {
+            Debug.Log("Could not find child \"Running\" of player object");
+        }
+
+        // get the animator game object to handle
+        if (!GetChild(this.gameObject, "Idle", out idleAnimu))
+        {
+            Debug.Log("Could not find child \"Idle\" of player object");
+        }
+
         sprite = GetComponent<SpriteRenderer>();
 
         spawnPos = transform.position;
-
-        _navAgent.updateRotation = false;
 
         pause = false;
         canMove = true;
@@ -47,7 +64,7 @@ public abstract class Navigable : MonoBehaviour
         time += Time.deltaTime;
     }
 
-    void Update ()
+    protected void Update()
     {
         if (targetFound)
         {
@@ -62,7 +79,10 @@ public abstract class Navigable : MonoBehaviour
     /// <summary>
     /// Character moves along path determined through inheritence 
     /// </summary>
-    protected abstract void patrolMovement() ;
+    protected virtual void patrolMovement()
+    {
+        randomPatrolMovement();
+    }
 
     /// <summary>
     /// Character is frozen based on implmentation of inherited members
@@ -88,7 +108,6 @@ public abstract class Navigable : MonoBehaviour
     public virtual void TargetFound(Vector3 curPos)
     {
         target = curPos;
-        //target.y = 0.0f;
         targetFound = true;
     }
 
@@ -98,7 +117,6 @@ public abstract class Navigable : MonoBehaviour
     public virtual void TargetLost(Vector3 lastKnownPos)
     {
         target = lastKnownPos;
-        //target.y = 0.0f;
         patrolMovement();
         targetFound = false;
     }
@@ -127,5 +145,95 @@ public abstract class Navigable : MonoBehaviour
         }
         result = Vector3.zero;
         return false;
+    }
+
+
+    /// <summary>
+    /// Gets the child gameObject whose name is specified by 'wanted'
+    /// The search is non-recursive by default unless true is passed to 'recursive'
+    /// 
+    /// Will return bool if child was found and place that child in childObject out param.
+    /// 
+    /// ********************* USED FROM THE FOLLOWING SOURCE *************************
+    /// http://answers.unity3d.com/questions/726780/disabling-child-gameobject-from-script-attached-to.html
+    /// 
+    /// ******************************************************************************
+    /// 
+    /// </summary>
+    protected bool GetChild(GameObject inside, string wanted, out GameObject childObject, bool recursive = false)
+    {
+        childObject = null;
+        foreach (Transform child in inside.transform)
+        {
+            if (child.name == wanted)
+            {
+                childObject = child.gameObject;
+                return true;
+            }
+            if (recursive)
+            {
+                var within = GetChild(child.gameObject, wanted, out childObject, true);
+                if (within) return within;
+            }
+        }
+        return false;
+    }
+
+    /// <summary>
+    /// Base Random Patrol Movement
+    /// </summary>
+    protected void randomPatrolMovement()
+    {
+        if (pause)
+        {
+            if (time > movementTime || _navAgent.remainingDistance == 0) // how long to move for
+            {
+                pause = !pause;
+                time = 0.0f;
+                _navAgent.ResetPath();
+                runningAnimu.SetActive(false);
+                idleAnimu.SetActive(true);
+            }
+            else
+            {
+                time += Time.deltaTime;
+                
+            }
+           
+        }
+        else {
+            if (canMove)
+            {
+                runningAnimu.SetActive(true);
+                idleAnimu.SetActive(false);
+                randMovement();
+                pause = !pause;
+                canMove = !canMove;
+            }
+            else {
+                if (time > waitTime) // wait to move again
+                {
+                    canMove = !canMove;
+                    time = 0.0f;
+                }
+                time += Time.deltaTime;
+            }
+        }
+
+        
+    }
+
+    /// <summary>
+    /// Randomly moves GameObject around NavMesh
+    /// </summary>
+    private void randMovement()
+    {
+        Vector3 finalPosition;
+        if (RandomPoint(spawnPos, walkRadius, out finalPosition))
+        {
+            finalPosition.y = 0.0f;
+            _navAgent.destination = finalPosition;
+        }
+
     }
 }

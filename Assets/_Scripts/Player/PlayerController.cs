@@ -54,12 +54,14 @@ public class PlayerController : MonoBehaviour
 
 		rotation = transform.rotation;
 
-		GameObject Animation, squirrelMeshObj;
+		GameObject squirrelMeshObj;
 
         if (speed <= 0)
         {
             speed = 10;
         }
+        
+        #region childrenCollection
 
         // get the detection sphere game object to handle
         if (!GetChild(this.gameObject, "DetectionSphere", out freezeSphere))
@@ -88,6 +90,7 @@ public class PlayerController : MonoBehaviour
         {
             squirrelMesh = squirrelMeshObj.GetComponent<SkinnedMeshRenderer>();
         }
+        #endregion
 
         // retrieve GameController Object
         GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
