@@ -45,13 +45,13 @@ public abstract class Navigable : MonoBehaviour
         // get the animator game object to handle
         if (!GetChild(this.gameObject, "Running", out runningAnimu))
         {
-            Debug.Log("Could not find child \"Running\" of player object");
+            DebugMessage("Running");
         }
 
         // get the animator game object to handle
         if (!GetChild(this.gameObject, "Idle", out idleAnimu))
         {
-            Debug.Log("Could not find child \"Idle\" of player object");
+            DebugMessage("Idle");
         }
 
         sprite = GetComponent<SpriteRenderer>();
@@ -235,5 +235,10 @@ public abstract class Navigable : MonoBehaviour
             _navAgent.destination = finalPosition;
         }
 
+    }
+
+    protected void DebugMessage(String itemNotFound)
+    {
+        Debug.Log("Could not find " + itemNotFound +" for " + this.name + " game object");
     }
 }

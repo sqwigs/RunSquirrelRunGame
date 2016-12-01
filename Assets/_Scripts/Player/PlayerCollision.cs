@@ -56,10 +56,6 @@ public class PlayerCollision : MonoBehaviour {
         {
             Destroy(other.gameObject);
         }
-        //else if (other.collider.tag.Equals("Spikes"))
-        //{
-        //    gameController.GameOver();
-        //}
 
         if (player.getCollisionEnabled() && gameController.playerHit())
         {
@@ -74,7 +70,7 @@ public class PlayerCollision : MonoBehaviour {
 
     void OnTriggerEnter (Collider other)
     {
-        if (other.tag.Equals("Spikes"))
+        if (other.tag.Equals("Spikes") && this.tag.Equals("Player"))
         {
             gameController.GameOver();
         }

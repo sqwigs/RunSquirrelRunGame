@@ -202,7 +202,9 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 
-		if (Input.GetKeyDown(KeyCode.F) && freezeOn)
+		if ((Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.Joystick1Button2)
+                                            || Input.GetKeyDown(KeyCode.Joystick1Button18)) 
+                                                && freezeOn)
 		{
 			freezeOn = false;
 			StartCoroutine(freeze());
