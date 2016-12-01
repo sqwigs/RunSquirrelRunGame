@@ -6,24 +6,22 @@ using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
-    // GUI Interface for user
-    //public Text healthText;
-    //public Text restartText;
-    //public Text gameOverText;
-    //public Text cooldownText;
-    //public GUIText levelCompleteText;
-
     private HealthControl healthUI;
 
     // Controlling Var
     private bool gameOver;
 	public int playerHealth;
 
+    // Pause Menu Control
+    private GameObject pauseMenu;
+    private bool paused;
+
     // Use this for initialization
     void Start ()
     {
        // levelCompleteText.text = "";
         gameOver = false;
+        paused = false;
 
         GameObject healthUIObject = GameObject.FindGameObjectWithTag("HealthUI");
 
@@ -35,24 +33,36 @@ public class GameController : MonoBehaviour
         {
             Debug.Log("Cannot find 'HealthUI' script");
         }
+
+        if (!GetChild(this.gameObject, "PauseMenu", out pauseMenu))
+        {
+            Debug.Log("Could not find \"PauseMenu\" for " + this.name + " game object");
+        }
     }
 
     // Update is called once per frame
     void Update ()
     {
-	    if (gameOver)
+        if (!paused)
         {
-            SceneManager.LoadScene(0); // should be main menu
-        }
+            if (gameOver)
+            {
+                SceneManager.LoadScene(0); // should be main menu
+            }
 
-		if (Input.GetKeyDown (KeyCode.T)) { // Developer Debugging Code
-            SceneManager.LoadSceneAsync("FirstLevelProto");
-		}
+            if (Input.GetKeyDown(KeyCode.T))
+            { // Developer Debugging Code
+                SceneManager.LoadSceneAsync("FirstLevelProto");
+            }
 
-        if (Input.GetKeyDown (KeyCode.Escape))
-        {
-            SceneManager.LoadScene(0);
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                pauseMenu.SetActive(true);
+                paused = true;
+                Time.timeScale = 0;
+            }
         }
+	   
 
 		//healthText.text = "Health : " + playerHealth;
         
@@ -98,5 +108,46 @@ public class GameController : MonoBehaviour
     public void setCooldownText (string status)
     {
         //cooldownText.text = "Freeze : " + status;
+    }
+
+    /// <summary>
+    /// When this method is called, it will unpause the game.
+    /// </summary>
+    public void unpause()
+    {
+        paused = false;
+        pauseMenu.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    /// <summary>
+    /// Gets the child gameObject whose name is specified by 'wanted'
+    /// The search is non-recursive by default unless true is passed to 'recursive'
+    /// 
+    /// Will return bool if child was found and place that child in childObject out param.
+    /// 
+    /// ********************* USED FROM THE FOLLOWING SOURCE *************************
+    /// http://answers.unity3d.com/questions/726780/disabling-child-gameobject-from-script-attached-to.html
+    /// 
+    /// ******************************************************************************
+    /// 
+    /// </summary>
+    protected bool GetChild(GameObject inside, string wanted, out GameObject childObject, bool recursive = false)
+    {
+        childObject = null;
+        foreach (Transform child in inside.transform)
+        {
+            if (child.name == wanted)
+            {
+                childObject = child.gameObject;
+                return true;
+            }
+            if (recursive)
+            {
+                var within = GetChild(child.gameObject, wanted, out childObject, true);
+                if (within) return within;
+            }
+        }
+        return false;
     }
 }
