@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
 		}
 
         DOTween.Init(true, false, LogBehaviour.ErrorsOnly); // DOTween Intialziation.
+
         rigidBod = this.GetComponent<Rigidbody>(); 
 
 		rotation = transform.rotation;
@@ -107,6 +108,13 @@ public class PlayerController : MonoBehaviour
         // turn on all freezing controls
         freezeSphere.SetActive(false);
     }
+
+	/// <summary>
+	/// Raises the destroy event.
+	/// </summary>
+	void OnDestroy () {
+		DOTween.Clear ();
+	}
 
     /// <summary>
     /// Gets the child gameObject whose name is specified by 'wanted'

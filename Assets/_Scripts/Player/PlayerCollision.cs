@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using DG.Tweening;
 using System.Collections;
 
 public class PlayerCollision : MonoBehaviour {
@@ -13,8 +12,6 @@ public class PlayerCollision : MonoBehaviour {
     /// </summary>
     void Start()
     {
-        DOTween.Init(true, false, LogBehaviour.ErrorsOnly);
-
         GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
 
         if (gameControllerObject != null)
@@ -60,7 +57,8 @@ public class PlayerCollision : MonoBehaviour {
         if (player.getCollisionEnabled() && gameController.playerHit())
         {
             gameController.GameOver();
-            Destroy(this.gameObject);
+			//player.Destroy ();
+			Destroy (this.gameObject);
         }
         else
         {
