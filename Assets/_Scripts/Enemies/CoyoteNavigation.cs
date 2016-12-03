@@ -12,7 +12,6 @@ using System;
 public class CoyoteNavigation : Navigable {
 
     public GameObject zoneObject;
-    private Patrol patrol;
 
     public override void Start()
     {
@@ -48,7 +47,7 @@ public class CoyoteNavigation : Navigable {
         if (_navAgent.remainingDistance < 0.5f)
         {
             // Returns if no points have been set up
-            if (patrol.totalPatrolDest() == 0)
+            if (patrol.TotalPoints == 0)
                 return;
             // Set the agent to go to the currently selected destination.
             _navAgent.destination = patrol.getPatrolPoint();

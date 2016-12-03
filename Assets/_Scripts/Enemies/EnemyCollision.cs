@@ -4,6 +4,7 @@ using System.Collections;
 public class EnemyCollision : MonoBehaviour
 {
     private Rigidbody rigidbod;
+    private float timeStalled;
     // Runs once at beginning
     void Start()
     {
@@ -17,19 +18,17 @@ public class EnemyCollision : MonoBehaviour
     {
         if (other.collider.tag.Equals("Player"))
         {
-            GetComponent<NavMeshAgent>().Stop();
+            StartCoroutine(recoil());
         }
     }
 
-    /**
-    *  If other enters the boundary, execute event
-    */
-    void OnCollisionExit(Collision other)
+    private IEnumerator  recoil ()
     {
-        if (other.collider.tag.Equals("Player"))
-        {
-            GetComponent<NavMeshAgent>().Resume();
-        }
+        GetComponent<NavMeshAgent>().Stop();
+
+        yield return new WaitForSeconds(timeStalled);
+
+        GetComponent<NavMeshAgent>().Resume();
     }
 
 }

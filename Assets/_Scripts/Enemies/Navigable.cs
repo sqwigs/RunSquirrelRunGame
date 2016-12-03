@@ -5,16 +5,14 @@ using System;
 public abstract class Navigable : MonoBehaviour
 {
     // movement controls used by Designers
-    public float walkRadius;
-    public float movementTime;
-    public float waitTime;
+    public GameObject destPoints;
+    public bool reversePatrol;
+    protected Patrol patrol;
 
     // Nav Mesh Controls
     protected NavMeshAgent _navAgent;
     protected Vector3 spawnPos;
     protected Vector3 target; // player target found
-
-    protected SpriteRenderer sprite; // sprite image of enemy
 
     // time control
     protected float time;
@@ -54,7 +52,16 @@ public abstract class Navigable : MonoBehaviour
             DebugMessage("Idle");
         }
 
-        sprite = GetComponent<SpriteRenderer>();
+
+        if (destPoints != null)
+        {
+            patrol = new Patrol(destPoints);
+        }
+        else
+        {
+            Debug.Log("Cannot have a null zone object!");
+        }
+
 
         spawnPos = transform.position;
 
@@ -62,6 +69,7 @@ public abstract class Navigable : MonoBehaviour
         canMove = true;
         targetFound = false;
         time += Time.deltaTime;
+        _navAgent.SetDestination(transform.position);
     }
 
     protected void Update()
@@ -81,7 +89,21 @@ public abstract class Navigable : MonoBehaviour
     /// </summary>
     protected virtual void patrolMovement()
     {
-        randomPatrolMovement();
+        if (_navAgent.remainingDistance < 0.5f)
+        {
+            Debug.Log("remaining distance : " + _navAgent.remainingDistance + " totalPoints : " + patrol.TotalPoints);
+            if (reversePatrol)
+            {
+                _navAgent.SetDestination(patrol.getPatrolPointReverse());
+            }
+            else
+            {
+                // Set the agent to go to the currently selected destination.
+                _navAgent.SetDestination(patrol.getPatrolPoint());
+            }
+
+        }
+
     }
 
     /// <summary>
@@ -121,31 +143,13 @@ public abstract class Navigable : MonoBehaviour
         targetFound = false;
     }
 
+    /// <summary>
+    /// Determines how a enemy is frozen. 
+    /// </summary>
+    /// <returns></returns>
     protected abstract IEnumerator FreezeInPlace();
 
-    /// <summary>
-    /// Finds a random point within the nav mesh within the range given. Returns a boolean if a point was found. 
-    /// </summary>
-    /// <param name="center"> Starting point for which to find point within Navmesh </param>
-    /// <param name="range"> Radius range within the Nav mesh</param>
-    /// <param name="result"> Vector to found destination in Nav mesh</param>
-    /// <returns> true if point was found, otherwise returns false </returns>
-    protected bool RandomPoint(Vector3 center, float range, out Vector3 result)
-    {
-        for (int i = 0; i < 30; i++)
-        {
-            Vector3 randomPoint = center + UnityEngine.Random.insideUnitSphere * range;
-            //randomPoint.y = 0.0f;
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
-            {
-                result = hit.position;
-                return true;
-            }
-        }
-        result = Vector3.zero;
-        return false;
-    }
+
 
 
     /// <summary>
@@ -179,65 +183,94 @@ public abstract class Navigable : MonoBehaviour
         return false;
     }
 
-    /// <summary>
-    /// Base Random Patrol Movement
-    /// </summary>
-    protected void randomPatrolMovement()
-    {
-        if (pause)
-        {
-            if (time > movementTime || _navAgent.remainingDistance == 0) // how long to move for
-            {
-                pause = !pause;
-                time = 0.0f;
-                _navAgent.ResetPath();
-                runningAnimu.SetActive(false);
-                idleAnimu.SetActive(true);
-            }
-            else
-            {
-                time += Time.deltaTime;
+
+    #region RandomMovementPatrolCode
+
+    ///// <summary>
+    ///// Base Random Patrol Movement
+    ///// </summary>
+    //protected void randomPatrolMovement()
+    //{
+    //    if (pause)
+    //    {
+    //        if (time > movementTime || _navAgent.remainingDistance == 0) // how long to move for
+    //        {
+    //            pause = !pause;
+    //            time = 0.0f;
+    //            _navAgent.ResetPath();
+    //            runningAnimu.SetActive(false);
+    //            idleAnimu.SetActive(true);
+    //        }
+    //        else
+    //        {
+    //            time += Time.deltaTime;
                 
-            }
+    //        }
            
-        }
-        else {
-            if (canMove)
-            {
-                runningAnimu.SetActive(true);
-                idleAnimu.SetActive(false);
-                randMovement();
-                pause = !pause;
-                canMove = !canMove;
-            }
-            else {
-                if (time > waitTime) // wait to move again
-                {
-                    canMove = !canMove;
-                    time = 0.0f;
-                }
-                time += Time.deltaTime;
-            }
-        }
+    //    }
+    //    else {
+    //        if (canMove)
+    //        {
+    //            runningAnimu.SetActive(true);
+    //            idleAnimu.SetActive(false);
+    //            randMovement();
+    //            pause = !pause;
+    //            canMove = !canMove;
+    //        }
+    //        else {
+    //            if (time > waitTime) // wait to move again
+    //            {
+    //                canMove = !canMove;
+    //                time = 0.0f;
+    //            }
+    //            time += Time.deltaTime;
+    //        }
+    //    }
 
         
-    }
+    //}
+
+    ///// <summary>
+    ///// Randomly moves GameObject around NavMesh
+    ///// </summary>
+    //private void randMovement()
+    //{
+    //    Vector3 finalPosition;
+    //    if (RandomPoint(spawnPos, walkRadius, out finalPosition))
+    //    {
+    //        finalPosition.y = 0.0f;
+    //        _navAgent.destination = finalPosition;
+    //    }
+
+    //}
 
     /// <summary>
-    /// Randomly moves GameObject around NavMesh
+    /// Finds a random point within the nav mesh within the range given. Returns a boolean if a point was found. 
     /// </summary>
-    private void randMovement()
+    /// <param name="center"> Starting point for which to find point within Navmesh </param>
+    /// <param name="range"> Radius range within the Nav mesh</param>
+    /// <param name="result"> Vector to found destination in Nav mesh</param>
+    /// <returns> true if point was found, otherwise returns false </returns>
+    protected bool RandomPoint(Vector3 center, float range, out Vector3 result)
     {
-        Vector3 finalPosition;
-        if (RandomPoint(spawnPos, walkRadius, out finalPosition))
+        for (int i = 0; i < 30; i++)
         {
-            finalPosition.y = 0.0f;
-            _navAgent.destination = finalPosition;
+            Vector3 randomPoint = center + UnityEngine.Random.insideUnitSphere * range;
+            //randomPoint.y = 0.0f;
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPoint, out hit, 1.0f, NavMesh.AllAreas))
+            {
+                result = hit.position;
+                return true;
+            }
         }
-
+        result = Vector3.zero;
+        return false;
     }
 
-    protected void DebugMessage(String itemNotFound)
+    #endregion
+
+protected void DebugMessage(String itemNotFound)
     {
         Debug.Log("Could not find " + itemNotFound +" for " + this.name + " game object");
     }

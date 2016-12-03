@@ -16,11 +16,10 @@ public class Timer : MonoBehaviour {
     {
         time += Time.deltaTime;
 
-        var minutes = time / 60; //Divide the guiTime by sixty to get the minutes.
-        var seconds = time % 60;//Use the euclidean division for the seconds.
-        var fraction = (time * 100) % 100;
+        double minutes = time / 60; //Divide the guiTime by sixty to get the minutes.
+        double seconds = time % 60;//Use the euclidean division for the seconds
 
         //update the label value
-        timerLabel.text = "Time : " + string.Format("{0:00} : {1:00} : {2:000}", minutes, seconds, fraction);
+        timerLabel.text = "Time : " + string.Format("{0:00} : {1:00}", minutes, seconds);
     }
 }

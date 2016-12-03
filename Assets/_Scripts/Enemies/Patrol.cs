@@ -4,32 +4,40 @@ using System.Collections;
 public class Patrol
 {
     private Transform zone;
-    private int destPoint = 0;
+    private int destPoint;
     private int totalPoints;
+    public int TotalPoints
+    {
+        get { return totalPoints; }
+        private set { this.totalPoints = value; }
+    }
 
-    //void Start()
-    //{
-    //    totalPoints = transform.childCount;
-    //}
-
-    public Patrol (GameObject _zone)
+    public Patrol(GameObject _zone)
     {
         this.zone = _zone.GetComponent<Transform>();
         totalPoints = zone.childCount;
+        destPoint = 0;
     }
 
-    public int totalPatrolDest()
-    {
-        return totalPoints;
-    }
+
 
     public Vector3 getPatrolPoint()
     {
-        Transform patrolPoint = zone.GetChild(destPoint); ;
+        Transform patrolPoint = zone.GetChild(destPoint);
         // Choose the next point in the array as the destination,
         // cycling to the start if necessary.
         destPoint = (destPoint + 1) % totalPoints;
 
         return patrolPoint.position;
     }
+
+    public Vector3 getPatrolPointReverse()
+    {
+        Transform patrolPoint = zone.GetChild(totalPoints - destPoint - 1);
+
+        destPoint = (destPoint + 1) % totalPoints;
+
+        return patrolPoint.position;
+    }
+
 }
