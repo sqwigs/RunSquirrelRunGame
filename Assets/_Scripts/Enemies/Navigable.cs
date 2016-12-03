@@ -72,6 +72,7 @@ public abstract class Navigable : MonoBehaviour
         _navAgent.SetDestination(transform.position);
     }
 
+
     protected void Update()
     {
         if (targetFound)
@@ -91,7 +92,6 @@ public abstract class Navigable : MonoBehaviour
     {
         if (_navAgent.remainingDistance < 0.5f)
         {
-            Debug.Log("remaining distance : " + _navAgent.remainingDistance + " totalPoints : " + patrol.TotalPoints);
             if (reversePatrol)
             {
                 _navAgent.SetDestination(patrol.getPatrolPointReverse());
