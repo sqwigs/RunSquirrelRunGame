@@ -7,6 +7,7 @@ public abstract class Navigable : MonoBehaviour
     // movement controls used by Designers
     public GameObject destPoints;
     public bool reversePatrol;
+    public float minDistToPoint;
     protected Patrol patrol;
 
     // Nav Mesh Controls
@@ -91,7 +92,7 @@ public abstract class Navigable : MonoBehaviour
     /// </summary>
     protected virtual void patrolMovement()
     {
-        if (_navAgent.remainingDistance < 0.5f)
+        if (_navAgent.remainingDistance < minDistToPoint)
         {
             if (reversePatrol)
             {

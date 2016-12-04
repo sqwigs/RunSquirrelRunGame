@@ -4,8 +4,6 @@ using System;
 
 public class WolfNavigation : Navigable {
 
-    public GameObject zoneObject;
-
     public override void Start()
     {
         base.Start();
@@ -16,7 +14,7 @@ public class WolfNavigation : Navigable {
     public override void TargetFound(Vector3 lastKnownPos)
     {
         if (!targetFound )
-            _navAgent.speed *= 2;
+            _navAgent.speed *= 3;
 
         base.TargetFound(lastKnownPos);   
     }
@@ -24,7 +22,7 @@ public class WolfNavigation : Navigable {
     public override void TargetLost (Vector3 lastKnownPos)
     {
         if (targetFound)
-            _navAgent.speed /= 2;
+            _navAgent.speed /= 3;
 
         base.TargetLost(lastKnownPos);
     }

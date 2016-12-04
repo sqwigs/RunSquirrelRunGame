@@ -25,8 +25,7 @@ public class EndGoalCollision : MonoBehaviour {
     {
         if (other.tag.Equals("Player"))
         {
-            gameController.GameOver = true;
-            Destroy(other.gameObject);
+            gameController.MainMenu();
         }
     }
 }
