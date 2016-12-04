@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 
     #region Member Variables
 
-	private bool OSX;
+	private bool inOSX;
 
     // Player Movement Control Variables
     public float speed;
@@ -32,21 +32,29 @@ public class PlayerController : MonoBehaviour
     private bool collisionEnabled = true;
     private SkinnedMeshRenderer squirrelMesh;
 
+    // starting position of player
+    private Vector3 startingPos;
+
+    // Player Health
+    public int playerHealth;
+    private int playerFullHealth;
+
     // Freezing Power Control
     public float freezePowerCooldown;
     public float freezePowerActive;
     private bool freezeOn = true;
     private GameObject freezeSphere;
-    private GameController gameController;
+    private GUIController gameController;
 
     #endregion
 
     void Start()
     {
+
 		if (Application.platform == RuntimePlatform.OSXEditor) {
-			OSX = true;
+			inOSX = true;
 		} else {
-			OSX = false;
+			inOSX = false;
 		}
 
         DOTween.Init(true, false, LogBehaviour.ErrorsOnly); // DOTween Intialziation.
@@ -91,22 +99,28 @@ public class PlayerController : MonoBehaviour
         {
             squirrelMesh = squirrelMeshObj.GetComponent<SkinnedMeshRenderer>();
         }
+
+
+
         #endregion
 
-        // retrieve GameController Object
-        GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
+        // retrieve GUIController Object
+        GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GUIController");
 
         if (gameControllerObject != null)
         {
-            gameController = gameControllerObject.GetComponent<GameController>();
+            gameController = gameControllerObject.GetComponent<GUIController>();
         }
         else
         {
-            Debug.Log("Cannot find 'GameController' script");
+            Debug.Log("Cannot find 'GUIController' script");
         }
 
         // turn on all freezing controls
         freezeSphere.SetActive(false);
+
+        startingPos = this.transform.position;
+        playerFullHealth = playerHealth;
     }
 
 	/// <summary>
@@ -199,7 +213,7 @@ public class PlayerController : MonoBehaviour
        }
 
 
-		if (OSX) {
+		if (inOSX) {
 			if (Input.GetKeyDown(KeyCode.JoystickButton6)) {
 				freezeOn = false;
 				StartCoroutine(freeze());
@@ -232,19 +246,13 @@ public class PlayerController : MonoBehaviour
     {
         freezeSphere.SetActive(true); // turn on detection sphere
 
-        gameController.setCooldownText("ACTIVE");
-
         yield return new WaitForSeconds(freezePowerActive);
 
         freezeSphere.SetActive(false); // turn off detection sphere
 
-        gameController.setCooldownText("OFF");
-
         yield return new WaitForSeconds(freezePowerCooldown);
 
         freezeOn = true;
-
-        gameController.setCooldownText("ON"); // turn on detection sphere
 
     }
     #endregion
@@ -284,11 +292,24 @@ public class PlayerController : MonoBehaviour
     /// When this method is called, the recoil subroutine will be started. 
     /// </summary>
     /// <param name="enemyContact"></param>
-	public void playerHit (Vector3 enemyContact) {
+	public void playerHit ( Vector3 enemyContact) {
         if (collisionEnabled)
         {
-            collisionEnabled = false;
-            StartCoroutine(recoil(enemyContact));
+            
+            
+            if ((playerHealth -= 10) < 1)
+            {
+                this.transform.position = startingPos;
+                
+                playerHealth = playerFullHealth;
+            }
+            else
+            {
+                collisionEnabled = false;
+                StartCoroutine(recoil(enemyContact));
+            }
+
+            gameController.cyclePlayerHealth();
         }
 	}
 

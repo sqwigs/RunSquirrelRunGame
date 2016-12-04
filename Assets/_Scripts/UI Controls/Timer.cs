@@ -1,25 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System;
 
-public class Timer : MonoBehaviour {
-    private Text timerLabel;
+public class Timer {
 
-    private float time;
-
-    void Start ()
+    private double timeLeft;
+    public double TimeLeft
     {
-        timerLabel = this.GetComponent<Text>();
+        get { return timeLeft;  } 
     }
 
-    void Update()
+   public Timer (double _timeLimit)
     {
-        time += Time.deltaTime;
+        this.timeLeft = _timeLimit;
+    }
 
-        double minutes = time / 60; //Divide the guiTime by sixty to get the minutes.
-        double seconds = time % 60;//Use the euclidean division for the seconds
+    public void UpdateTimer()
+    {
+        timeLeft -= Time.deltaTime;
+    }
 
-        //update the label value
-        timerLabel.text = "Time : " + string.Format("{0:00} : {1:00}", minutes, seconds);
+    public override string ToString()
+    {
+        double minutes = timeLeft / 60; //Divide the guiTime by sixty to get the minutes.
+        double seconds = timeLeft % 60;//Use the euclidean division for the seconds
+
+        return string.Format("{0:00} : {1:00}", Math.Floor(minutes), Math.Floor(seconds));
+
     }
 }

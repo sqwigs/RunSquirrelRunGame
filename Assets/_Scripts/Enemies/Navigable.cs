@@ -27,6 +27,7 @@ public abstract class Navigable : MonoBehaviour
     protected GameObject runningAnimu;
     protected GameObject idleAnimu;
 
+
     /// <summary>
     /// Establish base for navigation variables used by child classes. 
     /// 

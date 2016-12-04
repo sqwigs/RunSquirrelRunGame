@@ -5,7 +5,7 @@ using DG.Tweening;
 
 public class SpikeHazard : HazardInterface {
 
-    private static float moveTime = 1;
+    private static float moveTime = 0.5f;
     private float startTransform, endTransform;
 
     // Use this for initialization
@@ -19,6 +19,11 @@ public class SpikeHazard : HazardInterface {
         
         
 	}
+
+    void OnDestroy ()
+    {
+        DOTween.Clear();
+    }
 
     /// <summary>
     /// Make trap rise and fall over time of level

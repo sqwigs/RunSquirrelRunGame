@@ -3,7 +3,6 @@ using System.Collections;
 
 public class HazardTrigger : MonoBehaviour {
 
-	private GameController gameController;
 	private PlayerController player;
 
 
@@ -12,16 +11,16 @@ public class HazardTrigger : MonoBehaviour {
 	/// </summary>
 	void Start()
 	{
-		GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
+		//GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GUIController");
 
-		if (gameControllerObject != null)
-		{
-			gameController = gameControllerObject.GetComponent<GameController>();
-		}
-		else
-		{
-			Debug.Log("Cannot find 'GameController' script");
-		}
+		//if (gameControllerObject != null)
+		//{
+		//	gameController = gameControllerObject.GetComponent<GUIController>();
+		//}
+		//else
+		//{
+		//	Debug.Log("Cannot find 'GUIController' script");
+		//}
 
 		GameObject playerControllerObject = GameObject.FindGameObjectWithTag("Player");
 
@@ -40,12 +39,7 @@ public class HazardTrigger : MonoBehaviour {
 	{
 		if (collision.gameObject.tag.Equals("Player"))
 		{
-			//player.recoil (-collider.transform.position);
-			if (gameController.playerHit ()) 
-			{
-				gameController.GameOver ();
-				Destroy (collision.gameObject);
-			}
+            player.playerHit(player.transform.position);
 		}
 	}
 }

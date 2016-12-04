@@ -3,25 +3,24 @@ using System.Collections;
 
 public class PlayerCollision : MonoBehaviour {
 
-    private GameController gameController;
+    //private GUIController gameController;
     private PlayerController player;
-    
 
     /// <summary>
     /// Run at the start of game
     /// </summary>
     void Start()
     {
-        GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
+        //GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GUIController");
 
-        if (gameControllerObject != null)
-        {
-            gameController = gameControllerObject.GetComponent<GameController>();
-        }
-        else
-        {
-            Debug.Log("Cannot find 'GameController' script");
-        }
+        //if (gameControllerObject != null)
+        //{
+        //    gameController = gameControllerObject.GetComponent<GUIController>();
+        //}
+        //else
+        //{
+        //    Debug.Log("Cannot find 'GUIController' script");
+        //}
 
         GameObject playerControllerObject = GameObject.FindGameObjectWithTag("Player");
 
@@ -54,23 +53,7 @@ public class PlayerCollision : MonoBehaviour {
             Destroy(other.gameObject);
         }
 
-        if (player.getCollisionEnabled() && gameController.playerHit())
-        {
-            gameController.GameOver();
-			//player.Destroy ();
-			Destroy (this.gameObject);
-        }
-        else
-        {
-            player.playerHit(other.transform.position);
-        }
+         player.playerHit(other.transform.position);
     }
 
-    void OnTriggerEnter (Collider other)
-    {
-        if (other.tag.Equals("Spikes") && this.tag.Equals("Player"))
-        {
-            gameController.GameOver();
-        }
-    }
 }

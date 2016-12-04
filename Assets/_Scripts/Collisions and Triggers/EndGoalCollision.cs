@@ -3,21 +3,21 @@ using System.Collections;
 
 public class EndGoalCollision : MonoBehaviour {
 
-    private GameController gameController;
+    private GUIController gameController;
 
     /// <summary>
     /// Run at the start of game
     /// </summary>
     void Start()
     {
-        GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GameController");
+        GameObject gameControllerObject = GameObject.FindGameObjectWithTag("GUIController");
         if (gameControllerObject != null)
         {
-            gameController = gameControllerObject.GetComponent<GameController>();
+            gameController = gameControllerObject.GetComponent<GUIController>();
         }
         if (gameController == null)
         {
-            Debug.Log("Cannot find 'GameController' script");
+            Debug.Log("Cannot find 'GUIController' script");
         }
     }
 
@@ -25,8 +25,7 @@ public class EndGoalCollision : MonoBehaviour {
     {
         if (other.tag.Equals("Player"))
         {
-            gameController.levelComplete();
-            Destroy(this.gameObject);
+            gameController.GameOver = true;
             Destroy(other.gameObject);
         }
     }

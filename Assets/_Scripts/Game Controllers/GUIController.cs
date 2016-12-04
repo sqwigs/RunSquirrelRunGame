@@ -4,17 +4,30 @@ using System.Collections;
 using System;
 using UnityEngine.UI;
 
-public class GameController : MonoBehaviour
+public class GUIController : MonoBehaviour
 {
     private HealthControl healthUI;
 
     // Controlling Var
     private bool gameOver;
-	public int playerHealth;
+    public bool GameOver 
+        {
+            get { return gameOver;  }
+
+            set { gameOver = value; }
+        }
+    
+	//public int playerHealth;
 
     // Pause Menu Control
     private GameObject pauseMenu;
     private bool paused;
+
+    // time control
+    public float totalTime;
+    public GameObject timerPanel;
+    private Text timerText;
+    private Timer timer;
 
     // Use this for initialization
     void Start ()
@@ -38,6 +51,9 @@ public class GameController : MonoBehaviour
         {
             Debug.Log("Could not find \"PauseMenu\" for " + this.name + " game object");
         }
+
+        timerText = timerPanel.GetComponent<Text>();
+        timer = new Timer(totalTime);
     }
 
     // Update is called once per frame
@@ -45,11 +61,6 @@ public class GameController : MonoBehaviour
     {
         if (!paused)
         {
-            if (gameOver)
-            {
-                SceneManager.LoadScene(0); // should be main menu
-            }
-
             if (Input.GetKeyDown(KeyCode.T))
             { // Developer Debugging Code
                 SceneManager.LoadSceneAsync("FirstLevelProto");
@@ -61,54 +72,28 @@ public class GameController : MonoBehaviour
                 paused = true;
                 Time.timeScale = 0;
             }
+
+            timerText.text = "TIME TO FIND ACORN\n" + timer.ToString();
+            timer.UpdateTimer();
+
+            if (timer.TimeLeft < 1)
+            {
+                paused = false;
+                MainMenu();
+            }
         }
-	   
-
-		//healthText.text = "Health : " + playerHealth;
         
-	}
-
-    /// <summary>
-    /// If called, this function will end the level
-    /// </summary>
-    public void levelComplete()
-    {
-        gameOver = true;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public void GameOver ()
-	{
-        playerHealth = 0;
-		gameOver = true;
 	}
 
 	/// <summary>
 	/// If the player is hit and dies, this function will return true, else returns false. 
 	/// </summary>
 	/// <returns><c>true</c>, if hit was playered, <c>false</c> otherwise.</returns>
-	public bool playerHit () {
-		playerHealth -= 10;
-        healthUI.healthUpdate();
+	public void cyclePlayerHealth () {
 
-		if (playerHealth < 1) {
-			GameOver ();
-			return true;
-		}
-
-		return false;
+        healthUI.healthDecrease();
 	}
 
-    /// <summary>
-    /// Will set the internal cooldown text
-    /// </summary>
-    /// <param name="isActive" >determines what the cooldown text will say to player. </param>
-    public void setCooldownText (string status)
-    {
-        //cooldownText.text = "Freeze : " + status;
-    }
 
     /// <summary>
     /// When this method is called, it will unpause the game.
@@ -118,6 +103,11 @@ public class GameController : MonoBehaviour
         paused = false;
         pauseMenu.SetActive(false);
         Time.timeScale = 1;
+    }
+
+    public void MainMenu ()
+    {
+        SceneManager.LoadScene(0); // should be main menu
     }
 
     /// <summary>

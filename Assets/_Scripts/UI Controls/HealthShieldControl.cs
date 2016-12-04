@@ -15,15 +15,12 @@ public class HealthShieldControl : MonoBehaviour {
             shields.Enqueue(child.gameObject);
         }
 	}
-	
-    public void degradeShield ()
+
+    public void degradeShield()
     {
-        if (shields.Count > 1)
-        {
-            GameObject lostHealth = shields.Dequeue();
-            lostHealth.SetActive(false);
-            shields.Peek().SetActive(true);
-        }
-        
+        GameObject prevShield = shields.Dequeue();
+        prevShield.SetActive(false); // flip state of current shield
+        shields.Peek().SetActive(true);
+        shields.Enqueue(prevShield);
     }
 }

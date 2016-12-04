@@ -13,7 +13,10 @@ public class HealthControl : MonoBehaviour {
         healthOrbUIControl = this.GetComponentInChildren<HealthOrbControl>();
 	}
 	
-	public void healthUpdate ()
+    /// <summary>
+    /// Health is decreased by removing orb and switching shield image. 
+    /// </summary>
+	public void healthDecrease ()
     {
         shieldUIControl.degradeShield();
         healthOrbUIControl.removeOrb();

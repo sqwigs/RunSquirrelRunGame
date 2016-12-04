@@ -3,13 +3,7 @@ using System.Collections;
 
 public class EnemyCollision : MonoBehaviour
 {
-    private Rigidbody rigidbod;
-    private float timeStalled;
-    // Runs once at beginning
-    void Start()
-    {
-        rigidbod = GetComponent<Rigidbody>();
-    }
+    public float timeStalled;
 
     /**
     *  If other enters the boundary, execute event
