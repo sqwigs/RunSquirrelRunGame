@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class EndGoalCollision : MonoBehaviour {
 
@@ -25,7 +26,7 @@ public class EndGoalCollision : MonoBehaviour {
     {
         if (other.tag.Equals("Player"))
         {
-            gameController.MainMenu();
+            SceneManager.LoadScene(3);
         }
     }
 }

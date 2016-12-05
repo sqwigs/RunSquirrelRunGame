@@ -56,6 +56,7 @@ public class GUIController : MonoBehaviour
             Debug.Log("Could not find \"PauseMenu\" for " + this.name + " game object");
         }
 
+        // Get TimerText
         timerText = timerPanel.GetComponent<Text>();
         if(timerText == null)
         {
@@ -77,12 +78,7 @@ public class GUIController : MonoBehaviour
                 SceneManager.LoadSceneAsync("FirstLevelProto");
             }
 
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                pauseMenu.SetActive(true);
-                paused = true;
-                Time.timeScale = 0;
-            }
+            pauseControl(true);
 
             timerText.text = "TIME TO FIND ACORN\n" + timer.ToString();
             timer.UpdateTimer();
@@ -93,8 +89,29 @@ public class GUIController : MonoBehaviour
                 MainMenu();
             }
         }
+        else
+        {
+            pauseControl(false);
+
+
+        }
         
 	}
+
+    /// <summary>
+    /// Determine if key was pressed to intiate pause control and will set the state of pause menu to give value if key was pressed. 
+    /// </summary>
+    /// <param name="state"></param>
+    private void pauseControl (bool state)
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.Joystick1Button7) || Input.GetKeyDown(KeyCode.Joystick1Button9))
+        {
+            pauseMenu.SetActive(state);
+            paused = state;
+            Time.timeScale = (state) ? 0 : 1;
+
+        }
+    }
 
 	/// <summary>
 	/// If the player is hit and dies, this function will return true, else returns false. 
