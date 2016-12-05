@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class GUIController : MonoBehaviour
 {
     private HealthControl healthUI;
+    public GameObject freezeFlagGUI;
+    private FlagState freezeFlag;
 
     // Controlling Var
     private bool gameOver;
@@ -16,8 +18,6 @@ public class GUIController : MonoBehaviour
 
             set { gameOver = value; }
         }
-    
-	//public int playerHealth;
 
     // Pause Menu Control
     private GameObject pauseMenu;
@@ -38,6 +38,7 @@ public class GUIController : MonoBehaviour
 
         GameObject healthUIObject = GameObject.FindGameObjectWithTag("HealthUI");
 
+        // Locates the healthUIObject
         if (healthUIObject != null)
         {
             healthUI = healthUIObject.GetComponent<HealthControl>();
@@ -47,13 +48,23 @@ public class GUIController : MonoBehaviour
             Debug.Log("Cannot find 'HealthUI' script");
         }
 
+       
+
+        // Gets pause menu gameobject
         if (!GetChild(this.gameObject, "PauseMenu", out pauseMenu))
         {
             Debug.Log("Could not find \"PauseMenu\" for " + this.name + " game object");
         }
 
         timerText = timerPanel.GetComponent<Text>();
+        if(timerText == null)
+        {
+            GetChild(timerPanel, "TimerText", out timerPanel, true);
+            timerText = timerPanel.GetComponent<Text>();
+        }
         timer = new Timer(totalTime);
+
+        freezeFlag = freezeFlagGUI.GetComponent<FlagState>();
     }
 
     // Update is called once per frame
@@ -139,5 +150,22 @@ public class GUIController : MonoBehaviour
             }
         }
         return false;
+    }
+
+    /// <summary>
+    /// Based on the bool given,
+    /// will turn the flag gui item representing the freeze ability on or off. 
+    /// </summary>
+    /// <param name="active"> status of freeze ability </param>
+    internal void freezeActive(bool active)
+    {
+        if (active)
+        {
+            freezeFlag.flagActive();
+        }
+        else
+        {
+            freezeFlag.flagCooldown();
+        }
     }
 }

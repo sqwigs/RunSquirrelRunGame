@@ -249,10 +249,11 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(freezePowerActive);
 
         freezeSphere.SetActive(false); // turn off detection sphere
+        gameController.freezeActive(freezeOn = false);
 
         yield return new WaitForSeconds(freezePowerCooldown);
 
-        freezeOn = true;
+        gameController.freezeActive(freezeOn = true);
 
     }
     #endregion
