@@ -5,7 +5,8 @@ public abstract class HazardInterface : MonoBehaviour
 {
     // represents the time when hazard resets position
     public int trapStaticDelay;
-    public float triggerTime;
+    public float triggerTime, moveTime;
+	public float startY, endY;
 
 	protected abstract IEnumerator trapControl();	  
 }

@@ -5,19 +5,12 @@ using DG.Tweening;
 
 public class SpikeHazard : HazardInterface {
 
-    private static float moveTime = 0.5f;
-    private float startTransform, endTransform;
-
     // Use this for initialization
     void Start () {
         DOTween.Init(true, false, LogBehaviour.ErrorsOnly);
         Transform transform = GetComponent<Transform>();
-        startTransform = transform.position.y + transform.lossyScale.y;
-        endTransform = startTransform - transform.lossyScale.y;
 
-        StartCoroutine(trapControl () );
-        
-        
+        StartCoroutine(trapControl () );     
 	}
 
     void OnDestroy ()
@@ -35,11 +28,11 @@ public class SpikeHazard : HazardInterface {
 			
 			yield return new WaitForSeconds (triggerTime);
 
-			transform.DOMoveY(startTransform, moveTime);
+			transform.DOMoveY(startY, moveTime);
 
 			yield return new WaitForSeconds (trapStaticDelay);
 
-			transform.DOMoveY(endTransform, moveTime);
+			transform.DOMoveY(endY, moveTime);
 
 		}
 	}
