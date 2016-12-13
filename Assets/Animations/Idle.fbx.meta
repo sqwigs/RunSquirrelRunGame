@@ -93,8 +93,53 @@ ModelImporter:
     400084: tail9
     4300000: squirrelll:polySurface7
     7400000: bake2_noik
+    7400002: bake2_noik //// rootcntrl
     9500000: //RootNode
+    11100000: //RootNode
+    11100002: head
+    11100004: joint1
+    11100006: joint1 1
+    11100008: joint6
+    11100010: joint6 1
+    11100012: L_Ankle
+    11100014: L_Clav
+    11100016: L_Ear
+    11100018: L_EarTip
+    11100020: L_Foot
+    11100022: L_Hand
+    11100024: L_Hip
+    11100026: L_Knee
+    11100028: L_Shoulder
+    11100030: L_Wrist
+    11100032: R_Ankle
+    11100034: R_Clav
+    11100036: R_Ear
+    11100038: R_EarTip
+    11100040: R_Foot
+    11100042: R_Hand
+    11100044: R_Hip
+    11100046: R_Knee
+    11100048: R_Shoulder
+    11100050: R_Wrist
+    11100052: root
+    11100054: rootcntrl
+    11100056: spine1
+    11100058: spine2
+    11100060: spine3
+    11100062: squirrelll:polySurface7
+    11100064: tail1
+    11100066: tail10
+    11100068: tail11
+    11100070: tail2
+    11100072: tail3
+    11100074: tail4
+    11100076: tail5
+    11100078: tail6
+    11100080: tail7
+    11100082: tail8
+    11100084: tail9
     13700000: squirrelll:polySurface7
+    13700002: root
   materials:
     importMaterials: 1
     materialName: 0
@@ -104,12 +149,12 @@ ModelImporter:
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
-    motionNodeName: 
+    motionNodeName: <Root Transform>
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5

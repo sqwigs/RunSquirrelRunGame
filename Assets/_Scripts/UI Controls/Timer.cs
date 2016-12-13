@@ -9,6 +9,7 @@ public class Timer {
     public double TimeLeft
     {
         get { return timeLeft;  } 
+        set { timeLeft = value; }
     }
 
    public Timer (double _timeLimit)
@@ -27,6 +28,5 @@ public class Timer {
         double seconds = timeLeft % 60;//Use the euclidean division for the seconds
 
         return string.Format("{0:00} : {1:00}", Math.Floor(minutes), Math.Floor(seconds));
-
     }
 }

@@ -20,23 +20,20 @@ public class PlayerController : MonoBehaviour
 
     // Used for model control
 	private Quaternion rotation;
-	private GameObject runningAnimu;
-    private GameObject idleAnimu;
+    private Animator animu;
 
     // Control if player was hit by enemy.
     public float maxRecoilDist; // max distance that the player can recoil
     public float recoveryTime; // max amount of time before player regains control. 
-    public Material baseMat;
-    public Material hitMat;
     public float invFrames;
     private bool collisionEnabled = true;
-    private SkinnedMeshRenderer squirrelMesh;
 
     // starting position of player
     private Vector3 startingPos;
 
     // Player Health
     public int playerHealth;
+    private bool playerDead;
     private int playerFullHealth;
 
     // Freezing Power Control
@@ -78,27 +75,27 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Could not find child \"DetectionSphere\" of player object");
         }
 
-		// get the animator game object to handle
-		if (!GetChild(this.gameObject, "Running", out runningAnimu))
-		{
-			Debug.Log("Could not find child \"Running\" of player object");
-		}
+		//// get the animator game object to handle
+		//if (!GetChild(this.gameObject, "Running", out runningAnimu))
+		//{
+		//	Debug.Log("Could not find child \"Running\" of player object");
+		//}
 
-        // get the animator game object to handle
-        if (!GetChild(this.gameObject, "Idle", out idleAnimu))
-        {
-            Debug.Log("Could not find child \"Idle\" of player object");
-        }
+  //      // get the animator game object to handle
+  //      if (!GetChild(this.gameObject, "Idle", out idleAnimu))
+  //      {
+  //          Debug.Log("Could not find child \"Idle\" of player object");
+  //      }
 
-        // retrieve the meshes for the squirrel recoil effect. 
-        if (!GetChild(this.gameObject, "squirrelMesh", out squirrelMeshObj, true))
-        {
-            Debug.Log("Could not find child \"Squirrel Mesh\" of player object");
-        }
-        else
-        {
-            squirrelMesh = squirrelMeshObj.GetComponent<SkinnedMeshRenderer>();
-        }
+        //// retrieve the meshes for the squirrel recoil effect. 
+        //if (!GetChild(this.gameObject, "squirrelMesh", out squirrelMeshObj, true))
+        //{
+        //    Debug.Log("Could not find child \"Squirrel Mesh\" of player object");
+        //}
+        //else
+        //{
+        //    squirrelMesh = squirrelMeshObj.GetComponent<SkinnedMeshRenderer>();
+        //}
 
 
 
@@ -116,11 +113,14 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Cannot find 'GUIController' script");
         }
 
+        animu = GetComponent<Animator>();
+
         // turn on all freezing controls
         freezeSphere.SetActive(false);
 
         startingPos = this.transform.position;
         playerFullHealth = playerHealth;
+        playerDead = false;
     }
 
 	/// <summary>
@@ -167,31 +167,29 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // recoil of player if hit
-        if (collisionEnabled && (Math.Abs(moveHorz) > 0.3 || Math.Abs(moveVert) > 0.3))
+        if (!playerDead && collisionEnabled && (Math.Abs(moveHorz) > 0.3 || Math.Abs(moveVert) > 0.3))
         {
             // Determine vector to move character
             Vector3 movementVector = new Vector3(moveHorz, 0.0f, moveVert);
             float tempSpeed = speed;
 
             // Animation run 
-            runningAnimu.SetActive(true);
-            idleAnimu.SetActive(false);
-           // runningAnimu.GetComponent<Animator>().speed = 2;
+            animu.SetBool("Running", true);
+
             if (Math.Abs(moveHorz) > 0.9 || Math.Abs(moveVert) > 0.9)
             {
-                runningAnimu.GetComponent<Animator>().speed = 2;
                 tempSpeed *= 1.2f;
-            } else {
-                runningAnimu.GetComponent<Animator>().speed = 1;
+            }
+            else {
                 tempSpeed *= 0.5f;
             }
             rotation = Quaternion.LookRotation(-1 * movementVector);
 
             rigidBod.velocity = movementVector * -(tempSpeed);
             transform.rotation = rotation;
-        } else {
-            runningAnimu.SetActive(false);
-            idleAnimu.SetActive(true);
+        }
+        else {
+            animu.SetBool("Running", false);
             rigidBod.velocity = Vector3.zero;
         }
     }
@@ -267,6 +265,7 @@ public class PlayerController : MonoBehaviour
 	{
         this.gameObject.GetComponent<Collider>().enabled = false;
 
+
         // TODO: Add recoil for down and up directional vectors
         if (Vector3.Angle(Vector3.right, rigidBod.velocity) > 90)
         {
@@ -277,13 +276,16 @@ public class PlayerController : MonoBehaviour
             transform.DOMove(transform.position + (transform.position.normalized*maxRecoilDist), recoveryTime);
         }
 
-        squirrelMesh.material = hitMat;
+        //squirrelMesh.material = hitMat;
 
         yield return new WaitForSeconds (recoveryTime);
 
+        animu.SetBool("Hit", false);
+
+
         transform.DOKill();
 
-        squirrelMesh.material = baseMat;
+        //squirrelMesh.material = baseMat;
         this.gameObject.GetComponent<Collider>().enabled = true;
         collisionEnabled = true;
 
@@ -296,16 +298,19 @@ public class PlayerController : MonoBehaviour
 	public void playerHit ( Vector3 enemyContact) {
         if (collisionEnabled)
         {
-            
-            
+
             if ((playerHealth -= 10) < 1)
             {
-                this.transform.position = startingPos;
-                
-                playerHealth = playerFullHealth;
+                playerDead = true;
+                animu.SetTrigger("Dead");
+                //Debug.Log("Death Animator State = " + animu.get);
+                StartCoroutine(playerRespawn());
+
             }
             else
             {
+                animu.SetBool("Hit", true);
+
                 collisionEnabled = false;
                 StartCoroutine(recoil(enemyContact));
             }
@@ -325,5 +330,24 @@ public class PlayerController : MonoBehaviour
 
     #endregion
 
-   
+    /// <summary>
+    /// Will stop player control until after death animation finishes, and then will respawn player at beginning of maze. 
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator playerRespawn()
+    {
+        animu.SetTrigger("Dead");
+
+        yield return new WaitUntil(() => animu.GetNextAnimatorStateInfo(0).IsName("Idle")); // Waits until animation state is Idle
+
+        this.transform.position = startingPos;
+
+        playerHealth = playerFullHealth;
+
+        animu.ResetTrigger("Dead");
+
+        playerDead = false;
+
+        gameController.resetTimer();
+    }
 }

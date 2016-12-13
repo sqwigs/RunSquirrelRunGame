@@ -25,6 +25,7 @@ public class GUIController : MonoBehaviour
 
     // time control
     public float totalTime;
+    private float currTime;
     public GameObject timerPanel;
     private Text timerText;
     private Timer timer;
@@ -63,7 +64,8 @@ public class GUIController : MonoBehaviour
             GetChild(timerPanel, "TimerText", out timerPanel, true);
             timerText = timerPanel.GetComponent<Text>();
         }
-        timer = new Timer(totalTime);
+        currTime = totalTime;
+        timer = new Timer(currTime);
 
         freezeFlag = freezeFlagGUI.GetComponent<FlagState>();
     }
@@ -133,6 +135,17 @@ public class GUIController : MonoBehaviour
         Time.timeScale = 1;
     }
 
+    /// <summary>
+    /// Will reset the current timer to begin again. 
+    /// </summary>
+    public void resetTimer ()
+    {
+        timer.TimeLeft = totalTime;
+    }
+ 
+    /// <summary>
+    /// Loads the MainMenu
+    /// </summary>
     public void MainMenu ()
     {
         SceneManager.LoadScene(0); // should be main menu
