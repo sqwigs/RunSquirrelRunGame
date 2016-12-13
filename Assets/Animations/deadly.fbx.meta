@@ -1,0 +1,279 @@
+fileFormatVersion: 2
+guid: cfcad3fc374be62428da70eb5d2e4101
+timeCreated: 1481587244
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: rigg:head
+    100004: rigg:joint1
+    100006: rigg:joint1 1
+    100008: rigg:joint6
+    100010: rigg:joint6 1
+    100012: rigg:L_Ankle
+    100014: rigg:L_Clav
+    100016: rigg:L_Ear
+    100018: rigg:L_EarTip
+    100020: rigg:L_Foot
+    100022: rigg:L_Hand
+    100024: rigg:L_Hip
+    100026: rigg:L_Knee
+    100028: rigg:L_Shoulder
+    100030: rigg:L_Wrist
+    100032: rigg:R_Ankle
+    100034: rigg:R_Clav
+    100036: rigg:R_Ear
+    100038: rigg:R_EarTip
+    100040: rigg:R_Foot
+    100042: rigg:R_Hand
+    100044: rigg:R_Hip
+    100046: rigg:R_Knee
+    100048: rigg:R_Shoulder
+    100050: rigg:R_Wrist
+    100052: rigg:root
+    100054: rigg:rootcntrl
+    100056: rigg:spine1
+    100058: rigg:spine2
+    100060: rigg:spine3
+    100062: rigg:squirrelll:polySurface7
+    100064: rigg:tail1
+    100066: rigg:tail10
+    100068: rigg:tail11
+    100070: rigg:tail2
+    100072: rigg:tail3
+    100074: rigg:tail4
+    100076: rigg:tail5
+    100078: rigg:tail6
+    100080: rigg:tail7
+    100082: rigg:tail8
+    100084: rigg:tail9
+    400000: //RootNode
+    400002: rigg:head
+    400004: rigg:joint1
+    400006: rigg:joint1 1
+    400008: rigg:joint6
+    400010: rigg:joint6 1
+    400012: rigg:L_Ankle
+    400014: rigg:L_Clav
+    400016: rigg:L_Ear
+    400018: rigg:L_EarTip
+    400020: rigg:L_Foot
+    400022: rigg:L_Hand
+    400024: rigg:L_Hip
+    400026: rigg:L_Knee
+    400028: rigg:L_Shoulder
+    400030: rigg:L_Wrist
+    400032: rigg:R_Ankle
+    400034: rigg:R_Clav
+    400036: rigg:R_Ear
+    400038: rigg:R_EarTip
+    400040: rigg:R_Foot
+    400042: rigg:R_Hand
+    400044: rigg:R_Hip
+    400046: rigg:R_Knee
+    400048: rigg:R_Shoulder
+    400050: rigg:R_Wrist
+    400052: rigg:root
+    400054: rigg:rootcntrl
+    400056: rigg:spine1
+    400058: rigg:spine2
+    400060: rigg:spine3
+    400062: rigg:squirrelll:polySurface7
+    400064: rigg:tail1
+    400066: rigg:tail10
+    400068: rigg:tail11
+    400070: rigg:tail2
+    400072: rigg:tail3
+    400074: rigg:tail4
+    400076: rigg:tail5
+    400078: rigg:tail6
+    400080: rigg:tail7
+    400082: rigg:tail8
+    400084: rigg:tail9
+    4300000: rigg:squirrelll:polySurface7
+    7400000: deathanimation2
+    9500000: //RootNode
+    13700000: rigg:squirrelll:polySurface7
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: deathanimation2
+      takeName: deathanimation
+      firstFrame: 1
+      lastFrame: 48
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: rigg:rootcntrl
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:L_Hip
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:L_Hip/rigg:L_Knee
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:L_Hip/rigg:L_Knee/rigg:L_Ankle
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:L_Hip/rigg:L_Knee/rigg:L_Ankle/rigg:L_Foot
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:L_Hip/rigg:L_Knee/rigg:L_Ankle/rigg:L_Foot/rigg:joint6
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:R_Hip
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:R_Hip/rigg:R_Knee
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:R_Hip/rigg:R_Knee/rigg:R_Ankle
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:R_Hip/rigg:R_Knee/rigg:R_Ankle/rigg:R_Foot
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:R_Hip/rigg:R_Knee/rigg:R_Ankle/rigg:R_Foot/rigg:joint6
+          1
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:spine1
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:spine1/rigg:spine2
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:spine1/rigg:spine2/rigg:L_Clav
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:spine1/rigg:spine2/rigg:L_Clav/rigg:L_Shoulder
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:spine1/rigg:spine2/rigg:L_Clav/rigg:L_Shoulder/rigg:joint1
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:spine1/rigg:spine2/rigg:L_Clav/rigg:L_Shoulder/rigg:joint1/rigg:L_Wrist
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:spine1/rigg:spine2/rigg:L_Clav/rigg:L_Shoulder/rigg:joint1/rigg:L_Wrist/rigg:L_Hand
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:spine1/rigg:spine2/rigg:R_Clav
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:spine1/rigg:spine2/rigg:R_Clav/rigg:R_Shoulder
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:spine1/rigg:spine2/rigg:R_Clav/rigg:R_Shoulder/rigg:joint1
+          1
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:spine1/rigg:spine2/rigg:R_Clav/rigg:R_Shoulder/rigg:joint1
+          1/rigg:R_Wrist
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:spine1/rigg:spine2/rigg:R_Clav/rigg:R_Shoulder/rigg:joint1
+          1/rigg:R_Wrist/rigg:R_Hand
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:spine1/rigg:spine2/rigg:spine3
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:spine1/rigg:spine2/rigg:spine3/rigg:head
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:spine1/rigg:spine2/rigg:spine3/rigg:head/rigg:L_Ear
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:spine1/rigg:spine2/rigg:spine3/rigg:head/rigg:L_Ear/rigg:L_EarTip
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:spine1/rigg:spine2/rigg:spine3/rigg:head/rigg:R_Ear
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:spine1/rigg:spine2/rigg:spine3/rigg:head/rigg:R_Ear/rigg:R_EarTip
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:tail1
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:tail1/rigg:tail2
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:tail1/rigg:tail2/rigg:tail3
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:tail1/rigg:tail2/rigg:tail3/rigg:tail4
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:tail1/rigg:tail2/rigg:tail3/rigg:tail4/rigg:tail5
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:tail1/rigg:tail2/rigg:tail3/rigg:tail4/rigg:tail5/rigg:tail6
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:tail1/rigg:tail2/rigg:tail3/rigg:tail4/rigg:tail5/rigg:tail6/rigg:tail7
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:tail1/rigg:tail2/rigg:tail3/rigg:tail4/rigg:tail5/rigg:tail6/rigg:tail7/rigg:tail8
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:tail1/rigg:tail2/rigg:tail3/rigg:tail4/rigg:tail5/rigg:tail6/rigg:tail7/rigg:tail8/rigg:tail9
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:tail1/rigg:tail2/rigg:tail3/rigg:tail4/rigg:tail5/rigg:tail6/rigg:tail7/rigg:tail8/rigg:tail9/rigg:tail10
+        weight: 1
+      - path: rigg:rootcntrl/rigg:root/rigg:tail1/rigg:tail2/rigg:tail3/rigg:tail4/rigg:tail5/rigg:tail6/rigg:tail7/rigg:tail8/rigg:tail9/rigg:tail10/rigg:tail11
+        weight: 1
+      - path: rigg:squirrelll:polySurface7
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 1
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
