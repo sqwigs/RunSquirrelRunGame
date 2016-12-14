@@ -354,6 +354,8 @@ public class PlayerController : MonoBehaviour
 
         playerDead = false;
 
+        gameController.TimerActive = true;
+
         gameController.resetGUI();
     }
 }

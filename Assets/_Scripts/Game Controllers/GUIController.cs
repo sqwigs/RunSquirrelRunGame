@@ -84,10 +84,6 @@ public class GUIController : MonoBehaviour
     {
         if (!paused)
         {
-            if (Input.GetKeyDown(KeyCode.T))
-            { // Developer Debugging Code
-                SceneManager.LoadSceneAsync("FirstLevelProto");
-            }
 
             pauseControl(true);
 
@@ -109,7 +105,7 @@ public class GUIController : MonoBehaviour
             pauseControl(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.D) && debugMode)
+        if (Input.GetKeyDown(KeyCode.F1) && debugMode)
         {
             debugMenu.SetActive(!debugMenu.activeSelf);
         }
