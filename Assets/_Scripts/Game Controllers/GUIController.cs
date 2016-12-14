@@ -8,6 +8,8 @@ public class GUIController : MonoBehaviour
 {
     private HealthControl healthUI;
     public GameObject freezeFlagGUI;
+    public GameObject debugMenu;
+    public bool debugMode;
     private FlagState freezeFlag;
 
     // Controlling Var
@@ -29,6 +31,12 @@ public class GUIController : MonoBehaviour
     public GameObject timerPanel;
     private Text timerText;
     private Timer timer;
+    private bool timerActive;
+    public bool TimerActive
+    {
+        get { return timerActive; }
+        set { timerActive = value; }
+    }
 
     // Use this for initialization
     void Start ()
@@ -65,6 +73,7 @@ public class GUIController : MonoBehaviour
             timerText = timerPanel.GetComponent<Text>();
         }
         currTime = totalTime;
+        timerActive = true;
         timer = new Timer(currTime);
 
         freezeFlag = freezeFlagGUI.GetComponent<FlagState>();
@@ -84,7 +93,10 @@ public class GUIController : MonoBehaviour
 
             // timerText.text = "TIME TO FIND ACORN\n" + timer.ToString();
             timerText.text = timer.ToString();
-            timer.UpdateTimer();
+            if (timerActive)
+            {
+                timer.UpdateTimer();
+            }
 
             if (timer.TimeLeft < 1)
             {
@@ -95,8 +107,11 @@ public class GUIController : MonoBehaviour
         else
         {
             pauseControl(false);
+        }
 
-
+        if (Input.GetKeyDown(KeyCode.D) && debugMode)
+        {
+            debugMenu.SetActive(!debugMenu.activeSelf);
         }
         
 	}
@@ -139,9 +154,11 @@ public class GUIController : MonoBehaviour
     /// <summary>
     /// Will reset the current timer to begin again. 
     /// </summary>
-    public void resetTimer ()
+    public void resetGUI ()
     {
         timer.TimeLeft = totalTime;
+        TimerActive = true;
+        healthUI.restoreHealth();
     }
  
     /// <summary>

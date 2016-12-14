@@ -5,22 +5,36 @@ using UnityEngine.UI;
 
 public class HealthShieldControl : MonoBehaviour {
 
-    private Queue<GameObject> shields;
+    private List<GameObject> shields;
+    private int shieldStates = 0;
+    private int index;
     
     // Use this for initialization
 	void Awake () {
-        shields = new Queue<GameObject>();
+        shields = new List<GameObject>();
         foreach (Transform child in transform)
         {
-            shields.Enqueue(child.gameObject);
+            shields.Add(child.gameObject);
+            shieldStates++;
         }
+        index = 0;
 	}
 
     public void degradeShield()
     {
-        GameObject prevShield = shields.Dequeue();
-        prevShield.SetActive(false); // flip state of current shield
-        shields.Peek().SetActive(true);
-        shields.Enqueue(prevShield);
+        shields[index].SetActive(false);
+        index = (index + 1) % shieldStates;
+        shields[index].SetActive(true);
+    }
+
+    public void healToFull()
+    {
+        foreach (GameObject shield in shields)
+        {
+            shield.SetActive(false);
+        }
+
+        shields[0].SetActive(true);
+        index = 0;
     }
 }

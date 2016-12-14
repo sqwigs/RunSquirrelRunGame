@@ -6,6 +6,10 @@ using System;
 public class Timer {
 
     private double timeLeft;
+
+    /// <summary>
+    /// Gets or Sets the total time left in this timer. 
+    /// </summary>
     public double TimeLeft
     {
         get { return timeLeft;  } 

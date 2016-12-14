@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     // Control if player was hit by enemy.
     public float maxRecoilDist; // max distance that the player can recoil
     public float recoveryTime; // max amount of time before player regains control. 
+    public float respawnTime;
     public float invFrames;
     private bool collisionEnabled = true;
 
@@ -296,14 +297,14 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     /// <param name="enemyContact"></param>
 	public void playerHit ( Vector3 enemyContact) {
-        if (collisionEnabled)
+        if (collisionEnabled && !playerDead)
         {
 
             if ((playerHealth -= 10) < 1)
             {
                 playerDead = true;
+                gameController.TimerActive = false;
                 animu.SetTrigger("Dead");
-                //Debug.Log("Death Animator State = " + animu.get);
                 StartCoroutine(playerRespawn());
 
             }
@@ -318,6 +319,11 @@ public class PlayerController : MonoBehaviour
             gameController.cyclePlayerHealth();
         }
 	}
+
+    public void debugPlayerHit()
+    {
+        playerHit(-this.transform.position);
+    }
 
     /// <summary>
     /// Returns whether the player has been hit recently, thus in invinsible frames. 
@@ -336,9 +342,9 @@ public class PlayerController : MonoBehaviour
     /// <returns></returns>
     private IEnumerator playerRespawn()
     {
-        animu.SetTrigger("Dead");
+        yield return new WaitForSeconds(respawnTime); // Waits until animation state is Idle
 
-        yield return new WaitUntil(() => animu.GetNextAnimatorStateInfo(0).IsName("Idle")); // Waits until animation state is Idle
+        animu.SetTrigger("Alive");
 
         this.transform.position = startingPos;
 
@@ -348,6 +354,6 @@ public class PlayerController : MonoBehaviour
 
         playerDead = false;
 
-        gameController.resetTimer();
+        gameController.resetGUI();
     }
 }

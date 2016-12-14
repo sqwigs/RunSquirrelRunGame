@@ -21,4 +21,10 @@ public class HealthControl : MonoBehaviour {
         shieldUIControl.degradeShield();
         healthOrbUIControl.removeOrb();
     }
+
+    public void restoreHealth ()
+    {
+        healthOrbUIControl.healToFull();
+        shieldUIControl.healToFull();
+    }
 }

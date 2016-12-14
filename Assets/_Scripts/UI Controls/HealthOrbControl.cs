@@ -30,22 +30,14 @@ public class HealthOrbControl : MonoBehaviour {
     /// </summary>
 	public void removeOrb ()
     {
-        if (index < numOfOrbs - 1)
-        {
             orbs[index].enabled = false;
-            index++;
-        }
-        else
-        {
-            healToFull();
-        }
-        
+            index = (index + 1) % numOfOrbs; 
     }
 
     /// <summary>
     /// Take back player to full health on GUI
     /// </summary>
-    private void healToFull()
+    public void healToFull()
     {
        foreach (Image orb in orbs)
         {
