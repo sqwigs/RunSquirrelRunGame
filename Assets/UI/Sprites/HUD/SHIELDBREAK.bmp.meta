@@ -1,25 +1,25 @@
 fileFormatVersion: 2
-guid: 756d65b4e625e374fb0f6ce95423df6f
-timeCreated: 1478592530
+guid: b683c5168ac362049bda17d34c637dcc
+timeCreated: 1481613992
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: ShieldBreak_Green_spritesheet_0
-    21300002: ShieldBreak_Green_spritesheet_1
-    21300004: ShieldBreak_Green_spritesheet_2
-    21300006: ShieldBreak_Green_spritesheet_3
-    21300008: ShieldBreak_Green_spritesheet_4
-    21300010: ShieldBreak_Green_spritesheet_5
-    21300012: ShieldBreak_Green_spritesheet_6
-    21300014: ShieldBreak_Green_spritesheet_7
-    21300016: ShieldBreak_Green_spritesheet_8
-    21300018: ShieldBreak_Green_spritesheet_9
-    21300020: ShieldBreak_Green_spritesheet_10
-    21300022: ShieldBreak_Green_spritesheet_11
-    21300024: ShieldBreak_Green_spritesheet_12
-    21300026: ShieldBreak_Green_spritesheet_13
-    21300028: ShieldBreak_Green_spritesheet_14
-    21300030: ShieldBreak_Green_spritesheet_15
+    21300000: SHIELDBREAK_0
+    21300002: SHIELDBREAK_1
+    21300004: SHIELDBREAK_2
+    21300006: SHIELDBREAK_3
+    21300008: SHIELDBREAK_4
+    21300010: SHIELDBREAK_5
+    21300012: SHIELDBREAK_6
+    21300014: SHIELDBREAK_7
+    21300016: SHIELDBREAK_8
+    21300018: SHIELDBREAK_9
+    21300020: SHIELDBREAK_10
+    21300022: SHIELDBREAK_11
+    21300024: SHIELDBREAK_12
+    21300026: SHIELDBREAK_13
+    21300028: SHIELDBREAK_14
+    21300030: SHIELDBREAK_15
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -69,208 +69,208 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ShieldBreak_Green_spritesheet_0
+      name: SHIELDBREAK_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 600
-        width: 200
-        height: 200
+        y: 750
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: ShieldBreak_Green_spritesheet_1
+      name: SHIELDBREAK_1
       rect:
         serializedVersion: 2
-        x: 200
-        y: 600
-        width: 200
-        height: 200
+        x: 250
+        y: 750
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: ShieldBreak_Green_spritesheet_2
+      name: SHIELDBREAK_2
       rect:
         serializedVersion: 2
-        x: 400
-        y: 600
-        width: 200
-        height: 200
+        x: 500
+        y: 750
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: ShieldBreak_Green_spritesheet_3
+      name: SHIELDBREAK_3
       rect:
         serializedVersion: 2
-        x: 600
-        y: 600
-        width: 200
-        height: 200
+        x: 750
+        y: 750
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: ShieldBreak_Green_spritesheet_4
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 400
-        width: 200
-        height: 200
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: ShieldBreak_Green_spritesheet_5
-      rect:
-        serializedVersion: 2
-        x: 200
-        y: 400
-        width: 200
-        height: 200
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: ShieldBreak_Green_spritesheet_6
-      rect:
-        serializedVersion: 2
-        x: 400
-        y: 400
-        width: 200
-        height: 200
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: ShieldBreak_Green_spritesheet_7
-      rect:
-        serializedVersion: 2
-        x: 600
-        y: 400
-        width: 200
-        height: 200
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      tessellationDetail: 0
-    - serializedVersion: 2
-      name: ShieldBreak_Green_spritesheet_8
+      name: SHIELDBREAK_4
       rect:
         serializedVersion: 2
         x: 0
-        y: 200
-        width: 200
-        height: 200
+        y: 500
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: ShieldBreak_Green_spritesheet_9
+      name: SHIELDBREAK_5
       rect:
         serializedVersion: 2
-        x: 200
-        y: 200
-        width: 200
-        height: 200
+        x: 250
+        y: 500
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: ShieldBreak_Green_spritesheet_10
+      name: SHIELDBREAK_6
       rect:
         serializedVersion: 2
-        x: 400
-        y: 200
-        width: 200
-        height: 200
+        x: 500
+        y: 500
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: ShieldBreak_Green_spritesheet_11
+      name: SHIELDBREAK_7
       rect:
         serializedVersion: 2
-        x: 600
-        y: 200
-        width: 200
-        height: 200
+        x: 750
+        y: 500
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: ShieldBreak_Green_spritesheet_12
+      name: SHIELDBREAK_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 250
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SHIELDBREAK_9
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 250
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SHIELDBREAK_10
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 250
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SHIELDBREAK_11
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 250
+        width: 250
+        height: 250
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: SHIELDBREAK_12
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 200
-        height: 200
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: ShieldBreak_Green_spritesheet_13
+      name: SHIELDBREAK_13
       rect:
         serializedVersion: 2
-        x: 200
+        x: 250
         y: 0
-        width: 200
-        height: 200
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: ShieldBreak_Green_spritesheet_14
+      name: SHIELDBREAK_14
       rect:
         serializedVersion: 2
-        x: 400
+        x: 500
         y: 0
-        width: 200
-        height: 200
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: ShieldBreak_Green_spritesheet_15
+      name: SHIELDBREAK_15
       rect:
         serializedVersion: 2
-        x: 600
+        x: 750
         y: 0
-        width: 200
-        height: 200
+        width: 250
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

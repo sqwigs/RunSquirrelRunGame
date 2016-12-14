@@ -82,7 +82,8 @@ public class GUIController : MonoBehaviour
 
             pauseControl(true);
 
-            timerText.text = "TIME TO FIND ACORN\n" + timer.ToString();
+            // timerText.text = "TIME TO FIND ACORN\n" + timer.ToString();
+            timerText.text = timer.ToString();
             timer.UpdateTimer();
 
             if (timer.TimeLeft < 1)
