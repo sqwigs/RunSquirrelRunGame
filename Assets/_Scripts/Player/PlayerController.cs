@@ -44,7 +44,31 @@ public class PlayerController : MonoBehaviour
     private GameObject freezeSphere;
     private GUIController gameController;
 
+    // Sound Control
+    //private SquirrelSFX sfx;
+    public AudioClip[] audioClips;
+    public float soundFXVol = 0.3f;
+    private enum sounds { runningFX, freezeFX, playerHit, shieldBreak };
+    private Dictionary<int, AudioSource> audioSources = new Dictionary<int, AudioSource>();
+
     #endregion
+    void Awake ()
+    {
+        SetUpAudio();
+    }
+
+    private void SetUpAudio()
+    {
+       // audioSources = new AudioSource[audioClips.Length];
+
+        for (int i = 0; i < audioClips.Length; i++)
+        {
+            AudioSource temp = this.gameObject.AddComponent<AudioSource>() as AudioSource;
+            temp.clip = audioClips[i];
+            temp.volume = soundFXVol;
+            audioSources.Add(i, temp);
+        }
+    }
 
     void Start()
     {
@@ -122,6 +146,8 @@ public class PlayerController : MonoBehaviour
         startingPos = this.transform.position;
         playerFullHealth = playerHealth;
         playerDead = false;
+
+        //sfx = this.GetComponent<SquirrelSFX>();
     }
 
 	/// <summary>
@@ -167,6 +193,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        AudioSource runningSource;
+
         // recoil of player if hit
         if (!playerDead && collisionEnabled && (Math.Abs(moveHorz) > 0.3 || Math.Abs(moveVert) > 0.3))
         {
@@ -188,10 +216,27 @@ public class PlayerController : MonoBehaviour
 
             rigidBod.velocity = movementVector * -(tempSpeed);
             transform.rotation = rotation;
+
+            if (audioSources.TryGetValue((int)sounds.runningFX, out runningSource))
+            {
+                if (!runningSource.isPlaying)
+                {
+                    runningSource.Play();
+                }
+            }
+           
         }
         else {
             animu.SetBool("Running", false);
             rigidBod.velocity = Vector3.zero;
+
+            if (audioSources.TryGetValue((int)sounds.runningFX, out runningSource))
+            {
+                if (runningSource.isPlaying)
+                {
+                    runningSource.Stop();
+                }
+            }
         }
     }
 
@@ -244,6 +289,13 @@ public class PlayerController : MonoBehaviour
     private IEnumerator freeze()
     {
         freezeSphere.SetActive(true); // turn on detection sphere
+        AudioSource freezeSource;
+        //sfx.PlaySound(freezeFX);
+        if (audioSources.TryGetValue((int)sounds.freezeFX, out freezeSource))
+        {
+            freezeSource.Play();
+        }
+        
 
         yield return new WaitForSeconds(freezePowerActive);
 
@@ -265,7 +317,12 @@ public class PlayerController : MonoBehaviour
     private IEnumerator recoil (Vector3 force)
 	{
         this.gameObject.GetComponent<Collider>().enabled = false;
+        AudioSource recoilSource;
 
+        if (audioSources.TryGetValue((int) sounds.playerHit, out recoilSource))
+        {
+            recoilSource.Play();
+        }
 
         // TODO: Add recoil for down and up directional vectors
         if (Vector3.Angle(Vector3.right, rigidBod.velocity) > 90)
@@ -302,16 +359,19 @@ public class PlayerController : MonoBehaviour
 
             if ((playerHealth -= 10) < 1)
             {
+                AudioSource shieldBreak;
                 playerDead = true;
                 gameController.TimerActive = false;
                 animu.SetTrigger("Dead");
                 StartCoroutine(playerRespawn());
-
+                if (audioSources.TryGetValue((int) sounds.shieldBreak, out shieldBreak))
+                {
+                    shieldBreak.Play();
+                }
             }
             else
             {
                 animu.SetBool("Hit", true);
-
                 collisionEnabled = false;
                 StartCoroutine(recoil(enemyContact));
             }
