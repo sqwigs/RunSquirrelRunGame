@@ -6,6 +6,7 @@ using System;
 public class Timer {
 
     private double timeLeft;
+    private double timeLimit;
 
     /// <summary>
     /// Gets or Sets the total time left in this timer. 
@@ -18,12 +19,18 @@ public class Timer {
 
    public Timer (double _timeLimit)
     {
+        this.timeLimit = _timeLimit;
         this.timeLeft = _timeLimit;
     }
 
     public void UpdateTimer()
     {
         timeLeft -= Time.deltaTime;
+    }
+
+    public void ResetTimer()
+    {
+        timeLeft = timeLimit;
     }
 
     public override string ToString()

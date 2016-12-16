@@ -6,6 +6,7 @@ public class StartOnClick : MonoBehaviour {
 
     public float delay = 1f;
 
+
 	public void LoadByIndex (int sceneIndex)
     {
         StartCoroutine(LoadAfterDelay(delay,sceneIndex));
